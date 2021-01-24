@@ -1,0 +1,76 @@
+{% extends 'reseller/base.html' %}
+<!-- title -->
+{% block title %}Malak Souq - {{session['first_name'] | title}} Items{% endblock %}
+
+<!-- content block -->
+
+
+
+{% block main %}
+<div class="row my-5 mx-auto">
+    <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
+        {%if session['uid'] %}
+            <a class="row" href="{{url_for('reseller.add_item')}}">Add New Items +</a>
+        {%endif%}
+        <a class="row" href="{{url_for('reseller.request_category')}}">Request New Category +</a>
+    </div>
+    
+    <div class="col-9">
+
+        {%if items%}
+
+        <!-- posts header -->
+        <div class="row my-5 container justify-content-between px-5">
+            <h3>
+                Souq Items
+            </h3>
+        </div>
+
+        <div class="row container">
+
+            {% for item in items %}
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+
+                <!-- post card -->
+                <div class="card bg-light mb-3">
+
+                    <!-- card header -->
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8">
+                                <h5 class="card-title">{{ item.title }}</h5>
+                            </div>
+                            <div class="col">
+
+                                {%if session['uid'] == item.author%}
+                                <!-- <div> item.author.id == session['uid'] </div> -->
+                                <a href="{{url_for('reseller.delete_item', item_id=item.id)}}" class="card-link"><i
+                                        class="fas fa-trash-alt"></i></a>
+                                <a href="{{url_for('reseller.edit_item', item_id=item.id)}}" class="card-link"><i
+                                        class="far fa-edit"></i></a>
+                                <!-- endif% -->
+                                {%endif%}
+                            </div>
+                        </div>
+
+                        <h3 class="card-subtitle mb-2 text-muted"> Price: {{item.price}} $</h3>
+                    </div>
+
+                    <!-- card body -->
+                    <div class="card-body">
+                        <p class="card-text">Category: {{item.category }}</p>
+                        <p class="card-text">Description: {{item.description}}</p>
+                    </div>
+
+                </div>
+            </div>
+            {%endfor%}
+
+            {%else%}
+            <h3>You don't have any item yet</h3>
+            {%endif%}
+        </div>
+    </div>
+    </div>
+        {% endblock %}

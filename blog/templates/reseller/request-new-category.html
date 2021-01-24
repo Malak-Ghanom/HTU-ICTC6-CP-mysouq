@@ -1,0 +1,24 @@
+{% extends 'reseller/base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Add Post{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block main %}
+<div class="row my-5 justify-content-between px-5">
+<div class="col-lg-4">
+  <form method="POST" action="">
+    {{form.hidden_tag()}}
+    <div class="row">
+      {{form.category_name.label}}
+      {{form.category_name(class_='form-control')}}
+    </div>
+    <hr class="mb-4"/>
+    {{form.submit(class_='form-control btn btn-dark text-white')}}
+  </form>
+  
+</div>
+</div>
+{% endblock %}

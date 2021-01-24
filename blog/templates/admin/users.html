@@ -1,0 +1,44 @@
+{% extends 'admin/base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block main %} 
+
+<h2 class="container my-5">All Users</h2>
+
+<table class="table container my-5">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Role</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  {% set count = namespace(value=1) %}
+  <tbody>
+  {% for user in users %}
+  {% if user.role != 'Admin' %}
+    <tr>
+      <th scope="row">{{ count.value }}</th>
+      <td>{{ user['first_name'] | title }}</td>
+      <td>{{ user['last_name'] | title }}</td>
+      <td>{{ user['email'] }}</td>
+      <td>{{ user['role'] }}</td>
+      {% if user['role'] != 'Admin' %}
+      <td><a href="{{url_for('admin.delete_user', user_id = user.id)}}"><i class="fas fa-user-minus"></i></a></td>
+      {%endif%}
+    </tr>
+    {% set count.value = count.value + 1 %}
+    {%endif%}
+    {% endfor %} 
+    </tbody>
+  </table> 
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'reseller/base.html' %}
+<!-- title -->
+{% block title %}Flask Blog - Edit User{% endblock %}
+
+<!-- content block -->
+{% block main %}
+
+<!-- edit user -->
+<div class="row my-5">
+  <div class="col-lg-8">
+    <h3>
+    Edit Post
+    </h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    
+    <form method="POST" action="">
+      {{form.hidden_tag()}}
+      <div class="row">
+        {{form.category.label}}
+        {{form.category(class_='form-control')}}
+      </div>
+      <div class="row">
+        {{form.price.label}}
+        {{form.price(class_='form-control')}}
+      </div>
+      <div class="row">
+        {{form.title.label}}
+        {{form.title(class_='form-control')}}
+      </div>
+      <div class="row">
+        {{form.description.label}}
+        {{form.description(class_='form-control')}}
+      </div>
+      
+      <hr class="mb-4"/>
+      {{form.submit(class_='form-control btn btn-dark text-white mb-5')}}
+    </form>
+    
+</div>
+</div>
+{% endblock %}
