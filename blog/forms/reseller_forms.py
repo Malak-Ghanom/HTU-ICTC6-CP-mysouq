@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField, PasswordField, SelectField
+from wtforms import StringField, TextAreaField, SubmitField, PasswordField, SelectField, IntegerField
 from wtforms.validators import InputRequired, EqualTo
 from wtforms.fields.html5 import EmailField
 
@@ -10,6 +10,7 @@ class EditItemForm(FlaskForm):
     price = StringField("Price")
     title = StringField("Title")
     description = TextAreaField("Description")
+    quantity = IntegerField("Quantity")
     submit = SubmitField("Update Item")
 
 
@@ -19,6 +20,7 @@ class AddItemForm(FlaskForm):
     price = StringField("Price")
     title = StringField("Title")
     description = TextAreaField("Description")
+    quantity = IntegerField("Quantity")
     submit = SubmitField("Add Item")
 
 class RequestCategoryForm(FlaskForm):

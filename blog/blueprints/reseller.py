@@ -15,6 +15,7 @@ def reseller_index():
     # render 'post' blueprint with posts
     return render_template('reseller/index.html', items=items)
 
+
 @reseller_bp.route('/reseller/items')
 def reseller_items():
 
@@ -65,9 +66,10 @@ def add_item():
         price = add_item_form.price.data
         title = add_item_form.title.data
         description = add_item_form.description.data
+        quantity = add_item_form.quantity.data
         author = session['uid']
         item = Item(category=category, price=price,
-                    title=title, description=description, author=author).save()
+                    title=title, description=description, author=author, quantity=quantity).save()
 
         return redirect(url_for('reseller.reseller_index'))
 
@@ -81,7 +83,6 @@ def delete_item(item_id):
     item = Item.objects(id=item_id).first().delete()
 
     return redirect(url_for('reseller.reseller_index'))
-
 
 
 @reseller_bp.route('/item/edit/<item_id>', methods=['GET', 'POST'])
@@ -100,6 +101,7 @@ def edit_item(item_id):
         edit_item_form.price.data = item.price
         edit_item_form.title.data = item.title
         edit_item_form.description.data = item.description
+        edit_item_form.quantity.data = item.quantity
 
     # handle form submission
 
@@ -110,7 +112,8 @@ def edit_item(item_id):
         price = edit_item_form.price.data
         title = edit_item_form.title.data
         description = edit_item_form.description.data
-        item = Item.objects(id= item_id).update(category=category, price=price, title=title, description=description)
+        quantity = edit_item_form.quantity.data
+        item = Item.objects(id= item_id).update(category=category, price=price, title=title, description=description, quantity=quantity)
 
         #  flash masseag
         flash("item information updated successfully!")

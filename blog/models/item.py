@@ -11,3 +11,4 @@ class Item(Document):
     price = StringField()
     category = StringField()
     visibility = BooleanField(default=True)
+    quantity = IntField()
