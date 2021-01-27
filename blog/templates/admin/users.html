@@ -18,25 +18,46 @@
       <th scope="col">Last Name</th>
       <th scope="col">E-mail</th>
       <th scope="col">Role</th>
-      <th scope="col">Action</th>
+      <th scope="col">Active</th>
+      <th scope="col">Remove</th>
+      <th scope="col">Activate</th>
+      <th scope="col">Deactivate</th>
     </tr>
   </thead>
   {% set count = namespace(value=1) %}
   <tbody>
   {% for user in users %}
-  {% if user.role != 'Admin' %}
-    <tr>
+  {%if user.active == True %}
+  <tr>
       <th scope="row">{{ count.value }}</th>
-      <td>{{ user['first_name'] | title }}</td>
-      <td>{{ user['last_name'] | title }}</td>
-      <td>{{ user['email'] }}</td>
-      <td>{{ user['role'] }}</td>
+      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['first_name'] | title }}</a></td>
+      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['last_name'] | title }}</a></td>
+      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['email'] }}</a></td>
+      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['role'] }}</a></td>
+      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['active'] }}</a></td>
       {% if user['role'] != 'Admin' %}
       <td><a href="{{url_for('admin.delete_user', user_id = user.id)}}"><i class="fas fa-user-minus"></i></a></td>
+      <td><a href="{{url_for('admin.activate_user', user_id = user.id)}}"><i class="fas fa-user" style="color:green;"></i></a></td>
+      <td><a href="{{url_for('admin.deactivate_user', user_id = user.id)}}"><i class="fas fa-user-slash"></i></a></td>
       {%endif%}
     </tr>
-    {% set count.value = count.value + 1 %}
+    {%else%}
+    <tr class="text-muted">
+      <th scope="row">{{ count.value }}</th>
+      <td><a class="text-muted" href="{{url_for('admin.view_user', id = user.id)}}">{{ user['first_name'] | title }}</a></td>
+      <td><a class="text-muted" href="{{url_for('admin.view_user', id = user.id)}}"></a>{{ user['last_name'] | title }}</a></td>
+      <td><a class="text-muted" href="{{url_for('admin.view_user', id = user.id)}}"></a>{{ user['email'] }}</a></td>
+      <td><a class="text-muted" href="{{url_for('admin.view_user', id = user.id)}}"></a>{{ user['role'] }}</a></td>
+      <td><a class="text-muted" href="{{url_for('admin.view_user', id = user.id)}}"></a>{{ user['active'] }}</a></td>
+      {% if user['role'] != 'Admin' %}
+      <td><a href="{{url_for('admin.delete_user', user_id = user.id)}}"><i class="fas fa-user-minus"></i></a></td>
+      <td><a href="{{url_for('admin.activate_user', user_id = user.id)}}"><i class="fas fa-user"></i></i></a></td>
+      <td><a href="{{url_for('admin.deactivate_user', user_id = user.id)}}"><i class="fas fa-user-slash" style="color:red;"></i></a></td>
+      {%endif%}
+    </tr>}
     {%endif%}
+
+    {% set count.value = count.value + 1 %}
     {% endfor %} 
     </tbody>
   </table> 
