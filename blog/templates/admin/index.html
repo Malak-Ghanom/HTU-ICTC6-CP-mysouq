@@ -11,6 +11,7 @@
     <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
         {%if session['uid'] %}
             <a class="row" href="{{url_for('admin.add_category')}}">Add New category +</a>
+            <a class="row" href="{{url_for('admin.requested_categories_list')}}">Requested Category</a>
         {%endif%}
     </div>
     
@@ -42,14 +43,8 @@
                             </div>
                             <div class="col">
 
-                                {%if session['uid'] == item.author%}
-                                <!-- <div> item.author.id == session['uid'] </div> -->
-                                <a href="{{url_for('reseller.delete_item', item_id=item.id)}}" class="card-link"><i
+                                <a href="{{url_for('admin.admin_delete_item', item_id=item.id)}}" class="card-link"><i
                                         class="fas fa-trash-alt"></i></a>
-                                <a href="{{url_for('reseller.edit_item', item_id=item.id)}}" class="card-link"><i
-                                        class="far fa-edit"></i></a>
-                                <!-- endif% -->
-                                {%endif%}
                             </div>
                         </div>
 
@@ -67,7 +62,7 @@
             {%endfor%}
 
             {%else%}
-            <h3>You don't have any item yet</h3>
+            <h3>Sorry, Malak Souq is empty &#128546</h3>
             {%endif%}
         </div>
     </div>
