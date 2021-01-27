@@ -5,6 +5,6 @@ from wtforms.fields.html5 import EmailField
 
 
 class AddCategoryForm(FlaskForm):
-
     category_name = StringField("Category Name")
-    submit = SubmitField("Submit")
+    submit = SubmitField("Add")
+
