@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block main %} 
+
+<div class="container my-5">
+
+  <h2>Requested Categories
+
+    <a href="{{url_for('admin.categories_list')}}" class="btn btn-success ml-5">Back</a>
+  </h2>
+</div>
+
+
+{% for category in requested_categories %}
+<div class="card container my-5 w-50">
+  <div class="card-body">
+    <h5 class="card-header">{{category.name | title}}</h5>
+    <p class="card-title">Requested By: {{category.user}}</p>
+    <p class="card-text">at: {{category.time}}</p>
+    <a href="{{url_for('admin.approve_category',category_id= category.id)}}" class="btn btn-success">Approve</a>
+    <a href="{{url_for('admin.decline_category',category_id= category.id)}}" class="btn btn-danger">Decline</a>
+  </div>
+</div>
+{% endfor %} 
+
+{% endblock %}

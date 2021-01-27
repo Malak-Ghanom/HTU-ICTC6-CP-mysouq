@@ -1,0 +1,38 @@
+{% extends 'admin/base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block main %} 
+
+<div class="container my-5">
+
+  <h2>Categories
+
+    <a href="{{url_for('admin.add_category')}}" class="btn btn-success ml-5">Add Category</a>
+  </h2>
+</div>
+
+<table class="table container my-5">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Categories Name</th>
+    </tr>
+  </thead>
+  {% set count = namespace(value=1) %}
+  <tbody>
+  {% for category in categories %}
+  <tr>
+      <th scope="row">{{ count.value }}</th>
+      <td>{{ category.name | title }}</td>
+
+    {% set count.value = count.value + 1 %}
+    {% endfor %} 
+    </tbody>
+  </table> 
+
+{% endblock %}
