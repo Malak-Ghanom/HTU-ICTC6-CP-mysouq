@@ -22,7 +22,7 @@ def login():
         user = User.objects(email=email).first()
 
         # check if the user was found and the password matches
-        if (user) and (user.password == password):
+        if (user) and (user.password == password) and user.active==True:
             session['uid'] = user.id
             session['email'] = user.email
             session['first_name'] = user.first_name
