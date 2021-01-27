@@ -10,9 +10,9 @@
 <div class="row my-5 mx-auto">
     <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
         {%if session['uid'] %}
-            <a class="row" href="{{url_for('reseller.add_item')}}">Add New Items +</a>
+            <a class="row" href="{{url_for('reseller.add_item')}}">Add New Items <h6>+</h6></a>
         {%endif%}
-        <a class="row" href="{{url_for('reseller.request_category')}}">Request New Category +</a>
+        <a class="row" href="{{url_for('reseller.request_category')}}">Request New Category <h6>+</h6></a>
     </div>
     
     <div class="col-9">
@@ -68,7 +68,10 @@
             {%endfor%}
 
             {%else%}
-            <h3>You don't have any item yet</h3>
+            <h3>Sorry, Malak Souq is empty &#128546</h3>
+            <a href="{{url_for('reseller.add_item')}}">
+                <h6>Would you like to add new item?</h6>
+            </a>
             {%endif%}
         </div>
     </div>
