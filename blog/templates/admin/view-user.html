@@ -19,8 +19,8 @@
 
       <h3> {{user['first_name'] | title}} {{user['last_name'] | title}} ({{user['username']}}) </h3>
 
-      {%if user['id']==session['uid'] %}
-      <div><a class="btn btn-success" href="{{url_for('user.edit_user',id=session['uid'])}}"> <i class="far fa-edit"></i></a></div>
+      {%if user.id ==session['uid'] %}
+      <div><a class="btn btn-success" href="#"> <i class="far fa-edit"></i></a></div>
       {%endif%}
 
     </div>
@@ -31,48 +31,10 @@
     </div>
     {%endif%}
 
-      
-    </div>
+
   </div>
+</div>
 
 <hr>
-  <div class="row my-5 mx-auto justify-content-center">
 
-    {% for post in posts %}
-    <div class="col-lg-4 col-md-6 col-sm-12">
-
-      <!-- post card -->
-      <div class="card bg-light mb-3">
-
-        <!-- card header -->
-        <div class="card-header row">
-          <div class="col-9">
-          <h5 class="card-title">{{ post['title'] }}</h5>
-          </div>
-
-          <div class="col">
-            <a href="{{url_for('blog.delete_post', post_id=post['id'])}}" class="card-link"><i class="fas fa-trash-alt"></i></a>
-            <a href="#" class="card-link"><i class="far fa-edit"></i></a>
-          </div>
-
-        </div>
-
-        <!-- card body -->
-        <div class="card-body">
-          <p class="card-text">{{ post['body'] }}</p>
-          <p class="card-text">{{ post['created'] }}</p>
-
-          <a href="#" class="card-link">Read more</a>
-          
-        </div>
-
-      </div>
-    </div>
-
-    {%endfor%}
-  </div>
-</div>
-
-
-</div>
 {%endblock%}
