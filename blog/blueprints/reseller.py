@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Reseller, User
+from blog.models import Item, Reseller, User, Category, RequestCategory
 from ..forms import AddItemForm, EditItemForm, RequestCategoryForm
-from .admin import categories
+from datetime import datetime
 
 reseller_bp = Blueprint('reseller', __name__)
 
@@ -32,18 +32,26 @@ def request_category():
 
     if request_category_form.validate_on_submit():
         # read item values from the form
-        requested_category = request_category_form.category_name.data
 
-        flash("Your request is pendding confirmation")
+        requested_category = request_category_form.category_name.data
+        
+        categories= [category['name'] for category in Category.objects]
+                
+        if requested_category not in categories:
+            category = RequestCategory(name=requested_category, user= session['uid'], time= datetime.now()).save()
+            flash("Your request is pendding confirmation")
+        else:
+            flash("Category already exist")
         
         return redirect(url_for('reseller.reseller_index'))
-
 
     return render_template('reseller/request-new-category.html', form= request_category_form)
 
 
 @reseller_bp.route('/add/item', methods=['GET', 'POST'])
 def add_item():
+
+    categories= [category['name'] for category in Category.objects]
 
     # create instance of our form
     add_item_form = AddItemForm()
@@ -81,6 +89,8 @@ def edit_item(item_id):
 
     item = Item.objects(id= item_id).first()
 
+    categories= [category['name'] for category in Category.objects]
+
     # create instance of our form
     edit_item_form = EditItemForm()
     edit_item_form.category.choices = categories
@@ -110,6 +120,3 @@ def edit_item(item_id):
 
     # redner the login template
     return render_template("reseller/edit-item.html", form=edit_item_form)
-
-
-
