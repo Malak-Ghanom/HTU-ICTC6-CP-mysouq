@@ -1,5 +1,6 @@
 from mongoengine import *
 from .item import Item
+# from .category import RequestedCategory, Category
 
 class User(Document):
     # define class metadata
@@ -13,6 +14,8 @@ class User(Document):
     birthdate = DateField(max_length=50)
     picture_url = StringField()
     role = StringField()
+    active = BooleanField(default=True)
+
 
 class Reseller(User):
     meta = {'collection': 'resellers', 'allow_inheritance': True}
@@ -23,6 +26,11 @@ class Buyers(User):
     meta = {'collection': 'buyers', 'allow_inheritance': True}
     favorite = ListField()
 
+
 class Admin(User):
     meta = {'collection': 'admin', 'allow_inheritance': True}
+
+    # categories = ListField(ReferenceField(Category))
+    # requested_categories = ListField(ReferenceField(RequestedCategory))
+
     pass
