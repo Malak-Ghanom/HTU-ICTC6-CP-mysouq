@@ -72,14 +72,12 @@ def categories_list():
     categories = Category.objects
     return render_template('admin/categories.html',categories= categories)
 
-
 @admin_bp.route('/requested/categories')
 def requested_categories_list():
     
     requested_categories = RequestCategory.objects
 
     return render_template('admin/requested-categories.html', requested_categories= requested_categories)
-
 
 @admin_bp.route('/approve/category/<category_id>')
 def approve_category(category_id):
@@ -93,7 +91,6 @@ def approve_category(category_id):
     requested_categories = RequestCategory.objects
     return render_template('admin/requested-categories.html', requested_categories= requested_categories)
 
-
 @admin_bp.route('/decline/category/<category_id>')
 def decline_category(category_id):
     
@@ -104,8 +101,6 @@ def decline_category(category_id):
 
     return render_template('admin/requested-categories.html', requested_categories= requested_categories)
 
-
-
 @admin_bp.route('/user/view/<id>')
 def view_user(id):
 
@@ -115,7 +110,6 @@ def view_user(id):
     
     # render 'profile.html' blueprint with user
     return render_template('admin/view-user.html', user=user)
-
 
 @admin_bp.route('/deactivate/user/<user_id>')
 def deactivate_user(user_id):

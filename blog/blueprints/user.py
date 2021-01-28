@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, url_for
 
-from ..forms import EditUserForm, AddUserForm
+from ..forms import EditUserForm, AddUserForm, ChangePasswordForm
 from blog.models import User, Item, Reseller
 
 
@@ -77,3 +77,30 @@ def edit_user(id):
 
     # redner the login template
     return render_template("user/edit-user.html", form=edit_user_form)
+
+
+@user_bp.route('/change/password/<user_id>', methods=['GET','POST'])
+def change_password(user_id):
+
+    change_password_form = ChangePasswordForm()
+
+    if change_password_form.validate_on_submit():
+
+        old_password= change_password_form.old_password.data
+        new_password= change_password_form.new_password.data
+        confirm_password= change_password_form.confirm_password.data
+
+        user = User.objects(email=user_id).first()
+
+        if old_password == user.password:
+            # user.update(password=new_password)
+            user = User.objects(email=user_id).update(password=new_password)
+            
+            flash('Your Password Updated successfully')
+            return redirect(url_for('login.login'))
+
+        else:
+            flash('faild to change password')
+            return redirect(url_for('buyer.view_buyer'))
+
+    return render_template("user/change-password.html", form=change_password_form)

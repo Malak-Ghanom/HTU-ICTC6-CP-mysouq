@@ -80,7 +80,12 @@ def add_item():
 @reseller_bp.route('/delete/item/<item_id>')
 def delete_item(item_id):
 
-    item = Item.objects(id=item_id).first().delete()
+    item = Item.objects(id=item_id).first()
+    
+    if item.buy_requests == 0:
+        item.delete()
+    else:
+        flash("Can't delete item, please solve the buy request first.")
 
     return redirect(url_for('reseller.reseller_index'))
 

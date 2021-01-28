@@ -34,7 +34,7 @@ def login():
                 return redirect(url_for('reseller.reseller_index'))
 
             elif user.role == 'Buyer':
-                return redirect('#')
+                return redirect(url_for('buyer.buyer_index'))
 
             elif user.role == 'Admin':
                 return redirect(url_for('admin.admin_index'))

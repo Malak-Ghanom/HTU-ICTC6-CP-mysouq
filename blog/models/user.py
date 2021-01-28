@@ -22,7 +22,7 @@ class Reseller(User):
     item = ListField(ReferenceField(Item))
 
 
-class Buyers(User):
+class Buyer(User):
     meta = {'collection': 'buyers', 'allow_inheritance': True}
     favorite = ListField()
 

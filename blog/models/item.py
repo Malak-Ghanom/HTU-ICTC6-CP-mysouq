@@ -12,3 +12,4 @@ class Item(Document):
     category = StringField()
     visibility = BooleanField(default=True)
     quantity = IntField()
+    buy_requests = IntField(default=0)

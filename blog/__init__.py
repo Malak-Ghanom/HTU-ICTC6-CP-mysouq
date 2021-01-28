@@ -36,8 +36,12 @@ def create_app(test_config=None):
     from .blueprints.reseller import reseller_bp
     app.register_blueprint(reseller_bp)
 
-    # register the 'reseller' blueprint
+    # register the 'admin' blueprint
     from .blueprints.admin import admin_bp
     app.register_blueprint(admin_bp)
+
+    # register the 'buyer' blueprint
+    from .blueprints.buyer import buyer_bp
+    app.register_blueprint(buyer_bp)
 
     return app
