@@ -16,19 +16,18 @@ class User(Document):
     role = StringField()
     active = BooleanField(default=True)
 
-
 class Reseller(User):
-    meta = {'collection': 'resellers', 'allow_inheritance': True}
+    meta = {'collection': 'resellers'}
     item = ListField(ReferenceField(Item))
 
-
 class Buyer(User):
-    meta = {'collection': 'buyers', 'allow_inheritance': True}
-    favorite = ListField()
+    # meta = {'collection': 'buyers'}
+    favorites_list = ListField(StringField(default=None))
+    buy_requests = ListField(StringField(default=None))
 
 
 class Admin(User):
-    meta = {'collection': 'admin', 'allow_inheritance': True}
+    meta = {'collection': 'admin'}
 
     # categories = ListField(ReferenceField(Category))
     # requested_categories = ListField(ReferenceField(RequestedCategory))

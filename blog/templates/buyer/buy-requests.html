@@ -1,6 +1,6 @@
 {% extends 'buyer/base.html' %}
 <!-- title -->
-{% block title %}Malak Souq - {{session['first_name'] | title}} Items{% endblock %}
+{% block title %}Malak Souq - {{session['first_name'] | title}} favorites{% endblock %}
 
 <!-- content block -->
 
@@ -18,18 +18,18 @@
 
     <div class="col-9">
 
-        {%if items%}
+        {%if buy_requests%}
 
         <!-- posts header -->
         <div class="row my-5 container justify-content-between px-5">
             <h3>
-                Souq Items
+                Requests
             </h3>
         </div>
 
         <div class="row container">
 
-            {% for item in items %}
+            {% for item in buy_requests %}
             {%if item.visibility == True%}
             <div class="col-lg-4 col-md-6 col-sm-12">
 
@@ -39,27 +39,11 @@
                     <!-- card header -->
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <h5 class="card-title">{{ item.title }}</h5>
                             </div>
-                            <div class="col-2">
-                                {%if item.id not in favorite_items%}
-                                <span title="add to favorite">
-                                    <a href="{{url_for('buyer.add_to_favorite', item_id= item.id)}}">
-                                        <i class="far fa-star text-warning"></i>
-                                    </a>
-                                </span>
-                                {%else%}
-                                <i class="fas fa-star text-warning"></i>
-                                {%endif%}
-                            </div>
-                            <div class="col-2">
-                                <span title="add to cart">
-                                    <a href="{{url_for('buyer.buy_item', item_id= item.id)}}">
-                                        <i class="fas fa-shopping-basket text-success"></i>
-                                    </a>
-                                </span>
-
+                            <div class="col">
+                                <h6 class="text-danger">Pending</h6>
                             </div>
                         </div>
 

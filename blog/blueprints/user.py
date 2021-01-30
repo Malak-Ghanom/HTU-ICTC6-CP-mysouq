@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, url_for
 
 from ..forms import EditUserForm, AddUserForm, ChangePasswordForm
-from blog.models import User, Item, Reseller
+from blog.models import User, Item, Reseller, Buyer
 
 
 # define our blueprint
@@ -15,18 +15,32 @@ def add_user():
     add_user_form = AddUserForm()
     # get the DB connection
     user = User()
+    buyer = Buyer()
 
     # handle form submission
     if add_user_form.validate_on_submit():
-        # read post values from the form
-        user.email = add_user_form.email.data
-        user.password = add_user_form.password.data
-        user.first_name = add_user_form.first_name.data
-        user.last_name = add_user_form.last_name.data
-        user.biography = add_user_form.biography.data
-        user.role = add_user_form.role.data
+        
+        if add_user_form.role.data == 'Buyer':
+            # read post values from the form
+            buyer.email = add_user_form.email.data
+            buyer.password = add_user_form.password.data
+            buyer.first_name = add_user_form.first_name.data
+            buyer.last_name = add_user_form.last_name.data
+            buyer.biography = add_user_form.biography.data
+            buyer.role = add_user_form.role.data
+            
+            buyer.save()
 
-        user.save()
+        else:
+                # read post values from the form
+                user.email = add_user_form.email.data
+                user.password = add_user_form.password.data
+                user.first_name = add_user_form.first_name.data
+                user.last_name = add_user_form.last_name.data
+                user.biography = add_user_form.biography.data
+                user.role = add_user_form.role.data
+
+                user.save()
 
         # flash sin up masseag to user
         flash("Account successfully created! Please log in.")
