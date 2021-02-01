@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for
 from ..forms import LoginForm
-from blog.models import User
+from blog.models import User, Admin
 
 # define our blueprint
 login_bp = Blueprint('login', __name__)
 
-@login_bp.route('/')
+
+
 @login_bp.route('/login', methods=['POST', 'GET'])
 def login():
     # create instance of our form
@@ -22,26 +23,33 @@ def login():
         user = User.objects(email=email).first()
 
         # check if the user was found and the password matches
-        if (user) and (user.password == password) and user.active==True:
-            session['uid'] = user.id
-            session['email'] = user.email
-            session['first_name'] = user.first_name
-            session['last_name'] = user.last_name
-            session['role'] = user.role
+        if (user):
+            if (user.password == password):
+                if user.active == True:
+                    session['uid'] = user.id
+                    session['email'] = user.email
+                    session['first_name'] = user.first_name
+                    session['last_name'] = user.last_name
+                    session['role'] = user.role
 
-            # redirect the user after login
-            if user.role == 'Reseller':
-                return redirect(url_for('reseller.reseller_index'))
+                    # redirect the user after login
+                    if user.role == 'Reseller':
+                        return redirect(url_for('reseller.check_mode'))
 
-            elif user.role == 'Buyer':
-                return redirect(url_for('buyer.buyer_index'))
+                    elif user.role == 'Buyer':
+                        return redirect(url_for('buyer.check_mode'))
 
-            elif user.role == 'Admin':
-                return redirect(url_for('admin.admin_index'))
+                    elif user.role == 'Admin':
+                        return redirect(url_for('admin.admin_index'))
+
+                else:
+                    return '<h1>this account has been disabled, please contact the support service provider.</h1>'
+
+            else:
+                return '<h1>incorrect password</h1>'
 
         else:
-            # redirect to 404 if the login was invalid
-            return redirect("#")
+            return '<h1>user not found</h1>'
 
     # redner the login template
     return render_template("login/login.html", form=login_form)

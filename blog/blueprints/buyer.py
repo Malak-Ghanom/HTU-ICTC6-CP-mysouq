@@ -1,8 +1,18 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Buyer
+from blog.models import Item, Buyer, Admin
 from ..forms import EditUserForm, ChangePasswordForm, TextSearchForm
 
 buyer_bp = Blueprint('buyer', __name__)
+
+@buyer_bp.route('/')
+def check_mode():
+
+    admin = Admin.objects.first()
+    if admin.under_maintenance == True:
+        return 'the system is under maintenance'
+    else:
+        return redirect(url_for('buyer.buyer_index'))
+
 
 #buyer home page contains all of the available items
 @buyer_bp.route('/buyer/index')

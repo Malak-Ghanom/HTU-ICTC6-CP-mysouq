@@ -2,6 +2,8 @@ from mongoengine import *
 from .items import Item
 # from .category import RequestedCategory, Category
 
+maintenance = False
+
 class User(Document):
     # define class metadata
     meta = {'collection': 'users', 'allow_inheritance': True}
@@ -19,19 +21,15 @@ class User(Document):
 
 
 class Reseller(User):
-    meta = {'collection': 'resellers'}
+
     item = ListField(ReferenceField(Item))
 
 class Buyer(User):
-    meta = {'collection': 'buyers'}
+
     favorites_list = ListField(StringField(default=None))
     buy_requests = ListField(StringField(default=None))
 
 
 class Admin(User):
-    meta = {'collection': 'admin'}
 
-    # categories = ListField(ReferenceField(Category))
-    # requested_categories = ListField(ReferenceField(RequestedCategory))
-
-    pass
+    under_maintenance= BooleanField(default=False)

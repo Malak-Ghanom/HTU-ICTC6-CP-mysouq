@@ -1,0 +1,40 @@
+{% extends 'admin/base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block main %} 
+
+<div class="container my-5">
+  <h2>Report</h2>
+</div>
+
+<table class="table container my-5">
+  
+  <tbody class="container">
+  <tr>
+      <th scope="row">Admin</th>
+      <td>{{admin_number}}</td>
+    </tr>
+  <tr>
+      <th scope="row">Reseller</th>
+      <td>{{reseller_number}}</td>
+    </tr>
+  <tr>
+      <th scope="row">Buyer</th>
+      <td>{{buyer_number}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Total Users = {{total_users}}</th>
+    </tr>
+    <tr>
+        <th scope="row">Items</th>
+        <td>{{items_number}}</td>
+      </tr>
+  </tbody>
+</table> 
+
+{% endblock %}

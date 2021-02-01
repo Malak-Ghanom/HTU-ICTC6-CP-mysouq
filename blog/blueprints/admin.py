@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, flash
 from ..forms import AddCategoryForm
-from blog.models import User, Item, Category, RequestCategory
+from blog.models import User, Item, Category, RequestCategory, Admin
 # from .reseller import requested_categories
 
 
@@ -147,3 +147,54 @@ def activate_user(user_id):
     users = User.objects
     # render 'profile.html' blueprint with user
     return render_template('admin/users.html',users=users)
+
+
+@admin_bp.route('/enable/maintenance/mode')
+def enable_maintenance_mode():
+
+    admins = Admin.objects
+
+    for admin in admins:
+        admin.under_maintenance = True
+        admin.save()
+
+    return redirect(url_for('login.logout'))
+
+@admin_bp.route('/disable/maintenance/mode')
+def disable_maintenance_mode():
+
+    admins = Admin.objects
+
+    for admin in admins:
+        admin.under_maintenance = False
+        admin.save()
+
+    return redirect(url_for('login.login'))
+
+@admin_bp.route('/report')
+def report():
+    users = User.objects
+    items = Item.objects
+
+    admin_number=0
+    reseller_number=0
+    buyer_number=0
+    total_users=0
+    items_number=0
+
+    for item in items:
+        items_number += 1
+
+    for user in users:
+        if user.role == 'Admin':
+            admin_number += 1
+            total_users += 1
+        elif user.role == 'Reseller':
+            reseller_number += 1 
+            total_users += 1
+        elif user.role == 'Buyer':
+            buyer_number += 1 
+            total_users += 1
+
+    return render_template('admin/report.html', items_number=items_number ,total_users=total_users , admin_number=admin_number, reseller_number=reseller_number, buyer_number=buyer_number)
+

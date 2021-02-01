@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, url_for
 
 from ..forms import EditUserForm, AddUserForm, ChangePasswordForm
-from blog.models import User, Item, Reseller, Buyer
+from blog.models import User, Item, Reseller, Buyer,Admin
 
 
 # define our blueprint
@@ -14,8 +14,9 @@ def add_user():
     # create instance of our form
     add_user_form = AddUserForm()
     # get the DB connection
-    user = User()
+    reseller = Reseller()
     buyer = Buyer()
+    admin = Admin()
 
     # handle form submission
     if add_user_form.validate_on_submit():
@@ -31,16 +32,25 @@ def add_user():
             
             buyer.save()
 
-        else:
-                # read post values from the form
-                user.email = add_user_form.email.data
-                user.password = add_user_form.password.data
-                user.first_name = add_user_form.first_name.data
-                user.last_name = add_user_form.last_name.data
-                user.biography = add_user_form.biography.data
-                user.role = add_user_form.role.data
-
-                user.save()
+        elif add_user_form.role.data == 'Admin':
+            # read post values from the form
+            admin.email = add_user_form.email.data
+            admin.password = add_user_form.password.data
+            admin.first_name = add_user_form.first_name.data
+            admin.last_name = add_user_form.last_name.data
+            admin.biography = add_user_form.biography.data
+            admin.role = add_user_form.role.data
+            admin.save()
+        
+        elif add_user_form.role.data == 'Reseller':
+            # read post values from the form
+            reseller.email = add_user_form.email.data
+            reseller.password = add_user_form.password.data
+            reseller.first_name = add_user_form.first_name.data
+            reseller.last_name = add_user_form.last_name.data
+            reseller.biography = add_user_form.biography.data
+            reseller.role = add_user_form.role.data
+            reseller.save()
 
         # flash sin up masseag to user
         flash("Account successfully created! Please log in.")

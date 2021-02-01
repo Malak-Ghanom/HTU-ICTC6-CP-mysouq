@@ -10,11 +10,11 @@
 <div class="row my-5 mx-auto">
     <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
         {%if session['uid'] %}
-            <a class="row" href="{{url_for('reseller.add_item')}}">Add New Items <h6>+</h6></a>
+        <a class="row" href="{{url_for('reseller.add_item')}}">Add New Items <h6>+</h6></a>
         {%endif%}
         <a class="row" href="{{url_for('reseller.request_category')}}">Request New Category <h6>+</h6></a>
     </div>
-    
+
     <div class="col-9">
 
         {%if items%}
@@ -38,18 +38,28 @@
                     <!-- card header -->
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <h5 class="card-title">{{ item.title }}</h5>
                             </div>
                             <div class="col">
 
                                 {%if session['uid'] == item.author%}
                                 <!-- <div> item.author.id == session['uid'] </div> -->
-                                <a href="{{url_for('reseller.delete_item', item_id=item.id)}}" class="card-link"><i
-                                        class="fas fa-trash-alt"></i></a>
-                                <a href="{{url_for('reseller.edit_item', item_id=item.id)}}" class="card-link"><i
-                                        class="far fa-edit"></i></a>
+                                <a title="delete item" href="{{url_for('reseller.delete_item', item_id=item.id)}}"
+                                    class="card-link"><i class="fas fa-trash-alt"></i></a>
+                                <a title="edit item" href="{{url_for('reseller.edit_item', item_id=item.id)}}"
+                                    class="card-link"><i class="far fa-edit"></i></a>
+                                {%if item.visibility == True%}
+                                <a title="hide item from buyers"
+                                    href="{{url_for('reseller.hide_item', item_id=item.id)}}" class="card-link"><i
+                                        class="fas fa-eye"></i></a>
+                                {%else%}
+                                <a title="hide item from buyers"
+                                    href="{{url_for('reseller.unhide_item', item_id=item.id)}}" class="card-link"><i
+                                        class="fas fa-eye-slash"></i></a>
+
                                 <!-- endif% -->
+                                {%endif%}
                                 {%endif%}
                             </div>
                         </div>
@@ -76,5 +86,5 @@
             {%endif%}
         </div>
     </div>
-    </div>
-        {% endblock %}
+</div>
+{% endblock %}

@@ -1,9 +1,18 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Reseller, User, Category, RequestCategory
+from blog.models import Item, Reseller, User, Category, RequestCategory, Admin
 from ..forms import AddItemForm, EditItemForm, RequestCategoryForm
 from datetime import datetime
 
 reseller_bp = Blueprint('reseller', __name__)
+
+@reseller_bp.route('/')
+def check_mode():
+
+    admin = Admin.objects.first()
+    if admin.under_maintenance == True:
+        return 'the system is under maintenance'
+    else:
+        return redirect(url_for('reseller.reseller_index'))
 
 
 @reseller_bp.route('/reseller')
@@ -130,3 +139,22 @@ def edit_item(item_id):
 
     # redner the login template
     return render_template("reseller/edit-item.html", form=edit_item_form)
+
+
+@reseller_bp.route('/hide/item/<item_id>')
+def hide_item(item_id):
+
+    item = Item.objects(id= item_id).first()
+    item.visibility = False
+    item.save()
+
+    return redirect(url_for('reseller.reseller_index'))
+
+@reseller_bp.route('/unhide/item/<item_id>')
+def unhide_item(item_id):
+
+    item = Item.objects(id= item_id).first()
+    item.visibility = True
+    item.save()
+
+    return redirect(url_for('reseller.reseller_index'))
