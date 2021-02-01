@@ -3,6 +3,6 @@
 
 print(f'Invoking __init__.py for {__name__}')
 
-from .user import User, Reseller, Buyer, Admin
-from .item import Item
-from .category import Category, RequestCategory
+from .users import User, Reseller, Buyer, Admin
+from .items import Item
+from .categories import Category, RequestCategory

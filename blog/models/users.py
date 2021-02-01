@@ -1,5 +1,5 @@
 from mongoengine import *
-from .item import Item
+from .items import Item
 # from .category import RequestedCategory, Category
 
 class User(Document):
@@ -15,13 +15,15 @@ class User(Document):
     picture_url = StringField()
     role = StringField()
     active = BooleanField(default=True)
+    notifications = ListField(StringField(default=None))
+
 
 class Reseller(User):
     meta = {'collection': 'resellers'}
     item = ListField(ReferenceField(Item))
 
 class Buyer(User):
-    # meta = {'collection': 'buyers'}
+    meta = {'collection': 'buyers'}
     favorites_list = ListField(StringField(default=None))
     buy_requests = ListField(StringField(default=None))
 

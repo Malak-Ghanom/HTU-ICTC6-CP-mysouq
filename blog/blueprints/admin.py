@@ -31,7 +31,12 @@ def delete_user(user_id):
 @admin_bp.route('/admin/delete/item/<item_id>')
 def admin_delete_item(item_id):
 
-    item = Item.objects(id=item_id).first().delete()
+    item = Item.objects(id=item_id).first()
+    notification = "Your item number '"+ item_id + "' has been deleted"
+    print(item.author)
+    user = User.objects(email= item.author).first()
+    user.notifications.append(notification)
+    user.save()
 
     return redirect(url_for('admin.admin_index'))
 
@@ -85,6 +90,13 @@ def approve_category(category_id):
     requested_category = RequestCategory.objects(id=category_id).first()
     category = Category(name=requested_category.name).save()
     
+    notification = "Your request to add category '"+ requested_category.name + "' has been approved"
+    
+    user = User.objects(email= requested_category.user).first()
+    user.notifications.append(notification)
+    user.save()
+
+
     flash(f"The '{requested_category.name}' category added successfully")
     requested_category.delete()
     

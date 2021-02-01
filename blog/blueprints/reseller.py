@@ -11,9 +11,11 @@ def reseller_index():
 
     # get items from mango database
     items = Item.objects
+    reseller = User.objects(email=session['uid']).first()
+    notifications = reseller.notifications
 
     # render 'post' blueprint with posts
-    return render_template('reseller/index.html', items=items)
+    return render_template('reseller/index.html', items=items, notifications=notifications)
 
 
 @reseller_bp.route('/reseller/items')

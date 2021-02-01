@@ -10,10 +10,13 @@
 <div class="row my-5 mx-auto">
     <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
         {%if session['uid'] %}
-        <a class="row" href="{{url_for('reseller.add_item')}}">###</a>
+        <a class="row" href="{{url_for('buyer.price_ascending')}}">Price ascending</a>
 
         {%endif%}
-        <a class="row" href="{{url_for('reseller.request_category')}}">###</a>
+        <a class="row" href="{{url_for('buyer.price_descending')}}">Price descending</a>
+        <a class="row" href="{{url_for('buyer.date_ascending')}}">Date ascending</a>
+        <a class="row" href="{{url_for('buyer.date_descending')}}">Date descending</a>
+        <a class="row" href="{{url_for('buyer.item_search')}}">Search</a>
     </div>
 
     <div class="col-9">
@@ -64,6 +67,7 @@
                         </div>
 
                         <p class="card-subtitle mb-2 text-muted"> Price: {{item.price}}$</p>
+                        <p class="card-subtitle mb-2 text-muted"> Date: {{ item.date.strftime('%d-%m-%Y %H:%M')}}</p>
                     </div>
 
                     <!-- card body -->

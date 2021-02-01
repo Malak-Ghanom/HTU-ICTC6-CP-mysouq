@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
 from blog.models import Item, Buyer
-from ..forms import EditUserForm, ChangePasswordForm
+from ..forms import EditUserForm, ChangePasswordForm, TextSearchForm
 
 buyer_bp = Blueprint('buyer', __name__)
 
@@ -9,6 +9,38 @@ buyer_bp = Blueprint('buyer', __name__)
 def buyer_index():
 
     items = Item.objects
+    buyer = Buyer.objects(email=session['uid']).first()
+    # print(favorite_items.favorite)
+    return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
+
+@buyer_bp.route('/price/ascending')
+def price_ascending():
+
+    items = Item.objects.price_ascending()
+    buyer = Buyer.objects(email=session['uid']).first()
+    # print(favorite_items.favorite)
+    return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
+
+@buyer_bp.route('/price/descending')
+def price_descending():
+
+    items = Item.objects.price_descending()
+    buyer = Buyer.objects(email=session['uid']).first()
+    # print(favorite_items.favorite)
+    return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
+
+@buyer_bp.route('/date/ascending')
+def date_ascending():
+
+    items = Item.objects.date_ascending()
+    buyer = Buyer.objects(email=session['uid']).first()
+    # print(favorite_items.favorite)
+    return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
+
+@buyer_bp.route('/date/descending')
+def date_descending():
+
+    items = Item.objects.date_descending()
     buyer = Buyer.objects(email=session['uid']).first()
     # print(favorite_items.favorite)
     return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
@@ -107,3 +139,34 @@ def buy_item(item_id):
 
 
     return render_template('buyer/buy-requests.html', buy_requests = buy_requests)
+
+
+@buyer_bp.route('/buy/requests')
+def buy_requests():
+
+    buyer = Buyer.objects(email= session['uid']).first()
+
+
+    # list_id= Buyer.objects(email=session['uid']).first()
+    buy_requests=[]
+
+    for item_id in buyer.buy_requests:
+        item = Item.objects(id=item_id).first()
+        buy_requests.append(item)
+
+
+    return render_template('buyer/buy-requests.html', buy_requests = buy_requests)
+
+
+@buyer_bp.route('/search', methods=['GET', 'POST'])
+def item_search():
+    search_form = TextSearchForm()
+    buyer = Buyer.objects(email=session['uid']).first()
+    if search_form.validate_on_submit():
+        keyword = search_form.keyword.data
+        results = Item.objects.search_text(keyword).order_by('$text_score')
+
+        # return render_template('buyer/buyer_index.html', posts=results, title="Search Results", icon="fas fa-search", keyword=keyword)
+        return render_template('buyer/index.html', items=results, favorite_items= buyer.favorites_list)
+
+    return render_template('buyer/search.html', form=search_form, title="Search", icon="fas fa-search")
