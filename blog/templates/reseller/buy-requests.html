@@ -1,4 +1,4 @@
-{% extends 'buyer/base.html' %}
+{% extends 'reseller/base.html' %}
 <!-- title -->
 {% block title %}Malak Souq - {{session['first_name'] | title}} favorites{% endblock %}
 
@@ -29,34 +29,49 @@
 
         <div class="row container">
 
-            {% for item in buy_requests %}
-            {%if item.visibility == True%}
+            {% for request in buy_requests %}
+            {%if request.item.visibility == True%}
             <div class="col-lg-4 col-md-6 col-sm-12">
 
                 <!-- post card -->
                 <div class="card bg-light mb-3">
 
-                    <!-- card header -->
+
                     <div class="card-header">
                         <div class="row">
                             <div class="col-7">
-                                <h5 class="card-title">{{ item.title }}</h5>
-                            </div>
-                            <div class="col">
-                                <h6 class="text-danger">Pending</h6>
+                                <h5 class="card-title">{{ request.item.title }}</h5>
                             </div>
                         </div>
 
-                        <p class="card-subtitle mb-2 text-muted"> Price: {{item.price}}$</p>
+                        <p class="card-subtitle mb-2 text-muted"> Price: {{request.item.price}}$</p>
                     </div>
 
                     <!-- card body -->
                     <div class="card-body">
-                        <p class="card-text">Category: {{item.category }}</p>
-                        <p class="card-text">Description: {{item.description}}</p>
-                        <p class="card-text">In stock: {{item.quantity}}</p>
+                        <p class="card-text">Category: {{request.item.category }}</p>
+                        <p class="card-text">Description: {{request.item.description}}</p>
+                        <p class="card-text">In stock: {{request.item.quantity}}</p>
                     </div>
 
+                    <!-- card header -->
+                    <div class="card-header">
+                        <p class="card-title">by: {{ request.buyer_id }}</p>
+                    </div>
+
+                    <!-- card header -->
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{url_for('reseller.approve_buy_request', request_id = request.id)}}"
+                                    class="btn btn-success">Approve</a>
+                            </div>
+                            <div class="col">
+                                <a href="{{url_for('reseller.decline_buy_request', request_id = request.id)}}"
+                                    class="btn btn-danger">Decline</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {%endif%}

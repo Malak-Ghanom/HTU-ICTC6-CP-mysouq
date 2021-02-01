@@ -1,0 +1,80 @@
+{% extends 'buyer/base.html' %}
+<!-- title -->
+{% block title %}Malak Souq - {{session['first_name'] | title}} favorites{% endblock %}
+
+<!-- content block -->
+
+
+
+{% block main %}
+<div class="row my-5 mx-auto">
+    <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
+        {%if session['uid'] %}
+        <a class="row" href="{{url_for('reseller.add_item')}}">###</a>
+
+        {%endif%}
+        <a class="row" href="{{url_for('reseller.request_category')}}">###</a>
+    </div>
+
+    <div class="col-9">
+
+        {%if buy_requests%}
+
+        <!-- posts header -->
+        <div class="row my-5 container justify-content-between px-5">
+            <h3>
+                Requests
+            </h3>
+        </div>
+
+        <div class="row container">
+
+            {% for request in buy_requests %}
+            {%if request.item.visibility == True%}
+            <div class="col-lg-4 col-md-6 col-sm-12">
+
+                <!-- post card -->
+                <div class="card bg-light mb-3">
+
+                    <!-- card header -->
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-7">
+                                <h5 class="card-title">{{ request.item.title }}</h5>
+                            </div>
+                            <div class="col">
+                                {%if request.status == 'pending'%}
+                                <h6 class="text-warning">{{request.status}}</h6>
+                                {%elif request.status == 'approved'%}
+                                <h6 class="text-success">{{request.status}}</h6>
+                                {%elif request.status == 'declined'%}
+                                <h6 class="text-danger">{{request.status}}</h6>
+                                {%endif%}
+                            </div>
+                        </div>
+
+                        <p class="card-subtitle mb-2 text-muted"> Price: {{request.item.price}}$</p>
+                    </div>
+
+                    <!-- card body -->
+                    <div class="card-body">
+                        <p class="card-text">Category: {{request.item.category }}</p>
+                        <p class="card-text">Description: {{request.item.description}}</p>
+                        <p class="card-text">In stock: {{request.item.quantity}}</p>
+                    </div>
+
+                </div>
+            </div>
+            {%endif%}
+            {%endfor%}
+
+            {%else%}
+            <h3>Sorry, Malak Souq is empty &#128546</h3>
+            <a href="{{url_for('reseller.add_item')}}">
+                <h6>Would you like to add new item?</h6>
+            </a>
+            {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock %}

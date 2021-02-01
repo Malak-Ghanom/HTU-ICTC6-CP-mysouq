@@ -1,6 +1,7 @@
 from mongoengine import *
 # from .user import Reseller
 from datetime import datetime
+from flask import session
 
 
 class ItemQuerySet(QuerySet):
@@ -35,4 +36,24 @@ class Item(Document):
     visibility = BooleanField(default=True)
     quantity = IntField()
     date = DateTimeField(default=datetime.now())
-    buy_requests = ListField(StringField())
+    buyers = ListField(StringField())
+
+
+class BuyRequestQuerySet(QuerySet):
+
+    def get_buyer_requests(self):
+        return self.filter(buyer_id= session['uid']).order_by('-id')
+
+    def get_reseller_pending_requests(self):
+        return self.filter(reseller_id= session['uid'], status= 'pending').order_by('-id')
+
+
+
+class BuyRequest(Document):
+
+    meta = {'queryset_class': BuyRequestQuerySet}
+
+    buyer_id = StringField()
+    item = ReferenceField(Item)
+    status = StringField()
+    reseller_id = StringField()

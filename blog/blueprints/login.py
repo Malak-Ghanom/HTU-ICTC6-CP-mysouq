@@ -31,7 +31,7 @@ def login():
                     session['first_name'] = user.first_name
                     session['last_name'] = user.last_name
                     session['role'] = user.role
-
+                    print(user.role)
                     # redirect the user after login
                     if user.role == 'Reseller':
                         return redirect(url_for('reseller.check_mode'))

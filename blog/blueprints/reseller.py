@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Reseller, User, Category, RequestCategory, Admin
+from blog.models import Item, Reseller, User, Category, RequestCategory, Admin, BuyRequest
 from ..forms import AddItemForm, EditItemForm, RequestCategoryForm
 from datetime import datetime
 
 reseller_bp = Blueprint('reseller', __name__)
 
-@reseller_bp.route('/')
+@reseller_bp.route('/reseller/mode')
 def check_mode():
 
     admin = Admin.objects.first()
@@ -158,3 +158,44 @@ def unhide_item(item_id):
     item.save()
 
     return redirect(url_for('reseller.reseller_index'))
+
+
+@reseller_bp.route('/buy/requests')
+def buy_requests():
+    
+    buy_requests = BuyRequest.objects.get_reseller_pending_requests()
+
+    return render_template('reseller/buy-requests.html', buy_requests = buy_requests)
+
+
+@reseller_bp.route('/approve/buy/request/<request_id>')
+def approve_buy_request(request_id):
+    
+    buy_request = BuyRequest.objects(id=request_id).first()
+    item_id = buy_request.item.id
+
+    item = Item.objects(id=item_id).first()
+
+    if item.visibility == True:
+        if item.quantity >= 1:
+            item.quantity -=1
+            buy_request.status = 'approved'
+            buy_request.save()
+        else:
+            item.delete()
+            buy_request.status = 'declined'
+            buy_request.save()
+
+    return redirect(url_for('reseller.buy_requests'))
+
+
+@reseller_bp.route('/decline/buy/request/<request_id>')
+def decline_buy_request(request_id):
+    
+    buy_request = BuyRequest.objects(id=request_id).first()
+
+    buy_request.status = 'declined'
+    buy_request.save()
+
+    return redirect(url_for('reseller.buy_requests'))
+

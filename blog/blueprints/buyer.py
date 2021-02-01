@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Buyer, Admin
+from blog.models import Item, Buyer, Admin, BuyRequest
 from ..forms import EditUserForm, ChangePasswordForm, TextSearchForm
 
 buyer_bp = Blueprint('buyer', __name__)
 
-@buyer_bp.route('/')
+@buyer_bp.route('/buyer')
 def check_mode():
 
     admin = Admin.objects.first()
@@ -131,41 +131,20 @@ def buy_item(item_id):
 
     
     item = Item.objects(id=item_id).first()
-    item.buy_requests.append(session['uid'])
+    item.buyers.append(session['uid'])
     item.save()
 
-    buyer = Buyer.objects(email= session['uid']).first()
-    
-    buyer.buy_requests.append(item_id)
-    buyer.save()
+    buy_request = BuyRequest(buyer_id= session['uid'], item=item, status='pending', reseller_id= item.author).save()
+
+    return redirect(url_for('buyer.buyer_requests'))
+
+@buyer_bp.route('/buyer/requests')
+def buyer_requests():
+
+    buy_requests = BuyRequest.objects.get_buyer_requests()
 
 
-    # list_id= Buyer.objects(email=session['uid']).first()
-    buy_requests=[]
-
-    for item_id in buyer.buy_requests:
-        item = Item.objects(id=item_id).first()
-        buy_requests.append(item)
-
-
-    return render_template('buyer/buy-requests.html', buy_requests = buy_requests)
-
-
-@buyer_bp.route('/buy/requests')
-def buy_requests():
-
-    buyer = Buyer.objects(email= session['uid']).first()
-
-
-    # list_id= Buyer.objects(email=session['uid']).first()
-    buy_requests=[]
-
-    for item_id in buyer.buy_requests:
-        item = Item.objects(id=item_id).first()
-        buy_requests.append(item)
-
-
-    return render_template('buyer/buy-requests.html', buy_requests = buy_requests)
+    return render_template('buyer/buyer-requests.html', buy_requests = buy_requests)
 
 
 @buyer_bp.route('/search', methods=['GET', 'POST'])

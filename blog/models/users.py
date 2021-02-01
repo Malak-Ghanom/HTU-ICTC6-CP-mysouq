@@ -1,5 +1,5 @@
 from mongoengine import *
-from .items import Item
+from .items import Item, BuyRequest
 # from .category import RequestedCategory, Category
 
 maintenance = False
@@ -27,7 +27,6 @@ class Reseller(User):
 class Buyer(User):
 
     favorites_list = ListField(StringField(default=None))
-    buy_requests = ListField(StringField(default=None))
 
 
 class Admin(User):
