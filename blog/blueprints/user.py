@@ -19,36 +19,36 @@ def add_user():
     admin = Admin()
 
     # handle form submission
-    if add_user_form.validate_on_submit():
-        
+    if request.method == 'POST':
+
         if add_user_form.role.data == 'Buyer':
-            # read post values from the form
+            # read buyer values from the form
             buyer.email = add_user_form.email.data
             buyer.password = add_user_form.password.data
             buyer.first_name = add_user_form.first_name.data
             buyer.last_name = add_user_form.last_name.data
-            buyer.biography = add_user_form.biography.data
+            buyer.birthdate = add_user_form.birthdate.data
             buyer.role = add_user_form.role.data
             
             buyer.save()
 
         elif add_user_form.role.data == 'Admin':
-            # read post values from the form
+            # read admin values from the form
             admin.email = add_user_form.email.data
             admin.password = add_user_form.password.data
             admin.first_name = add_user_form.first_name.data
             admin.last_name = add_user_form.last_name.data
-            admin.biography = add_user_form.biography.data
+            admin.birthdate = add_user_form.birthdate.data
             admin.role = add_user_form.role.data
             admin.save()
         
         elif add_user_form.role.data == 'Reseller':
-            # read post values from the form
+            # read reseller values from the form
             reseller.email = add_user_form.email.data
             reseller.password = add_user_form.password.data
             reseller.first_name = add_user_form.first_name.data
             reseller.last_name = add_user_form.last_name.data
-            reseller.biography = add_user_form.biography.data
+            reseller.birthdate = add_user_form.birthdate.data
             reseller.role = add_user_form.role.data
             reseller.save()
 
@@ -69,8 +69,7 @@ def edit_user(id):
     if request.method == "GET":
         edit_user_form.first_name.data = session['first_name']
         edit_user_form.last_name.data = session['last_name']
-        edit_user_form.picture_url.data = ''
-        edit_user_form.biography.data = session['biography']
+        edit_user_form.birthdate.data = session['birthdate']
 
     # handle form submission
 
@@ -81,8 +80,7 @@ def edit_user(id):
         # read post values from the form
         user.first_name = edit_user_form.first_name.data
         user.last_name = edit_user_form.last_name.data
-        user.picture_url = edit_user_form.picture_url.data
-        user.biography = edit_user_form.biography.data
+        user.birthdate = edit_user_form.birthdate.data
 
         # save data
         user.save()
@@ -90,8 +88,7 @@ def edit_user(id):
         # update session
         session['first_name'] = user.first_name
         session['last_name'] = user.last_name
-        session['picture_url'] = user.picture_url
-        session['biography'] = user.biography
+        session['birthdate'] = user.birthdate
         
         #  flash masseag
         flash("User information updated successfully!")

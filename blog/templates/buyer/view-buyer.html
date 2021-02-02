@@ -9,27 +9,31 @@
 
   <div class="col-6">
 
+    <div class="row my-5 mx-auto justify-content-end">
+      {%if buyer.id ==session['uid'] %}
+      <div><a class="btn btn-success" href="{{url_for('buyer.edit_buyer',buyer_id=session['uid'])}}">edit profile</a></div>
+      {%endif%}
+    </div>
     <div class="row my-5 mx-auto justify-content-center">
 
-      <img src="{{buyer['picture_url']}}" class="rounded-circle" width="320" height="200" alt="Profile">
+      <i  class="fas fa-user-circle fa-7x"></i>
     </div>
 
     <!-- posts header -->
+    <div class="row my-2 mx-auto justify-content-center text-muted">
+    <p> {{buyer.email}} ({{buyer.role}})</hh66>
+    </div>
     <div class="row my-2 mx-auto justify-content-center">
 
-      <h3> {{buyer['first_name'] | title}} {{buyer['last_name'] | title}}</h3>
+      
+      <h3> {{buyer.first_name | title}} {{buyer.last_name | title}}</h3>
 
-      {%if buyer.id ==session['uid'] %}
-      <div><a class="btn btn-success" href="{{url_for('buyer.edit_buyer',buyer_id=session['uid'])}}"> <i class="far fa-edit"></i></a></div>
-      {%endif%}
 
     </div>
 
-    {%if buyer['biography']%}
     <div class="row my-2 mx-auto justify-content-center">
-      <h5>({{buyer['biography']}})</h5>
+      <h5>({{buyer.birthdate}})</h5>
     </div>
-    {%endif%}
 
 
   </div>

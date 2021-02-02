@@ -21,7 +21,7 @@ def login():
 
         # get the DB connection
         user = User.objects(email=email).first()
-
+        print(user.email)
         # check if the user was found and the password matches
         if (user):
             if (user.password == password):

@@ -7,7 +7,7 @@ from wtforms.fields.html5 import EmailField
 class EditItemForm(FlaskForm):
 
     category = SelectField("Category",choices=[])
-    price = StringField("Price")
+    price = IntegerField("Price")
     title = StringField("Title")
     description = TextAreaField("Description")
     quantity = IntegerField("Quantity")
@@ -17,7 +17,7 @@ class EditItemForm(FlaskForm):
 class AddItemForm(FlaskForm):
 
     category = SelectField("Category",choices=[])
-    price = StringField("Price")
+    price = IntegerField("Price")
     title = StringField("Title")
     description = TextAreaField("Description")
     quantity = IntegerField("Quantity")

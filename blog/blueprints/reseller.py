@@ -23,8 +23,11 @@ def reseller_index():
     reseller = User.objects(email=session['uid']).first()
     notifications = reseller.notifications
 
+    buy_requests = BuyRequest.objects.get_reseller_pending_requests()
+    buy_requests_number = len(buy_requests)
+    
     # render 'post' blueprint with posts
-    return render_template('reseller/index.html', items=items, notifications=notifications)
+    return render_template('reseller/index.html', items=items, notifications=notifications, buy_requests_number=buy_requests_number)
 
 
 @reseller_bp.route('/reseller/items')

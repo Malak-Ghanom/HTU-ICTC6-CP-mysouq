@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Buyer, Admin, BuyRequest
+from blog.models import Item, Buyer, Admin, BuyRequest, User
 from ..forms import EditUserForm, ChangePasswordForm, TextSearchForm
 
 buyer_bp = Blueprint('buyer', __name__)
@@ -135,6 +135,14 @@ def buy_item(item_id):
     item.save()
 
     buy_request = BuyRequest(buyer_id= session['uid'], item=item, status='pending', reseller_id= item.author).save()
+
+    buy_requests = BuyRequest.objects.get_buyer_requests()
+    reseller = User.objects(email= item.author).first()
+
+    notification = session['uid'] +" request to buy item '"+ item.title + "' from you"
+    reseller.notifications.append(notification)
+    reseller.save()
+
 
     return redirect(url_for('buyer.buyer_requests'))
 

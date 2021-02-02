@@ -31,7 +31,7 @@ class Item(Document):
     author = StringField()
     title = StringField(max_length=120)
     description = StringField()
-    price = StringField()
+    price = IntField()
     category = StringField()
     visibility = BooleanField(default=True)
     quantity = IntField()

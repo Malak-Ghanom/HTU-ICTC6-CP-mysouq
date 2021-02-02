@@ -14,7 +14,6 @@ class User(Document):
     email = EmailField(required=True, primary_key=True)
     password = StringField(required=True)
     birthdate = DateField(max_length=50)
-    picture_url = StringField()
     role = StringField()
     active = BooleanField(default=True)
     notifications = ListField(StringField(default=None))

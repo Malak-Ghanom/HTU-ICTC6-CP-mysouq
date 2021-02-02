@@ -78,9 +78,9 @@
             {%endfor%}
 
             {%else%}
-            <h3>Sorry, Malak Souq is empty &#128546</h3>
-            <a href="{{url_for('reseller.add_item')}}">
-                <h6>Would you like to add new item?</h6>
+            <h3>There is no pending requests</h3>
+            <a href="{{url_for('reseller.reseller_index')}}">
+                <h6>Home</h6>
             </a>
             {%endif%}
         </div>
