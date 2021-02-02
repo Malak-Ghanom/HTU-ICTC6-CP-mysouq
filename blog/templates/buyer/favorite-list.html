@@ -8,22 +8,14 @@
 
 {% block main %}
 <div class="row my-5 mx-auto">
-    <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
-        {%if session['uid'] %}
-        <a class="row" href="{{url_for('reseller.add_item')}}">###</a>
-
-        {%endif%}
-        <a class="row" href="{{url_for('reseller.request_category')}}">###</a>
-    </div>
-
-    <div class="col-9">
+    <div class="col">
 
         {%if favorite_items%}
 
         <!-- posts header -->
         <div class="row my-5 container justify-content-between px-5">
             <h3>
-                Favorite Items
+                Favorites
             </h3>
         </div>
 

@@ -7,14 +7,8 @@
 
 
 {% block main %}
-<div class="row my-5 mx-auto">
-    <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
-        {%if session['uid'] %}
-        <a class="row" href="{{url_for('reseller.add_item')}}">###</a>
-
-        {%endif%}
-        <a class="row" href="{{url_for('reseller.request_category')}}">###</a>
-    </div>
+<div class="row my-5 mx-auto container">
+    
 
     <div class="col-9">
 
@@ -69,9 +63,9 @@
             {%endfor%}
 
             {%else%}
-            <h3>Sorry, Malak Souq is empty &#128546</h3>
-            <a href="{{url_for('reseller.add_item')}}">
-                <h6>Would you like to add new item?</h6>
+            <h3>There is no item</h3>
+            <a href="{{url_for('buyer.buyer_index')}}">
+                <p>Back to mysouq</p>
             </a>
             {%endif%}
         </div>

@@ -18,10 +18,13 @@ def check_mode():
 @buyer_bp.route('/buyer/index')
 def buyer_index():
 
+    buy_requests = BuyRequest.objects.get_buyer_requests()
+    buy_requests_number = len(buy_requests)
+
     items = Item.objects
     buyer = Buyer.objects(email=session['uid']).first()
     # print(favorite_items.favorite)
-    return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
+    return render_template('buyer/index.html', items=items, notifications= buyer.notifications, buy_requests_number=buy_requests_number)
 
 @buyer_bp.route('/price/ascending')
 def price_ascending():
@@ -75,7 +78,7 @@ def edit_buyer(buyer_id):
     if request.method == "GET":
         edit_user_form.first_name.data = buyer.first_name
         edit_user_form.last_name.data = buyer.last_name
-        edit_user_form.picture_url.data = ''
+        edit_user_form.birthdate.data = buyer.birthdate
 
     # handle form submission
 
@@ -84,16 +87,16 @@ def edit_buyer(buyer_id):
         # read post values from the form
         first_name = edit_user_form.first_name.data
         last_name = edit_user_form.last_name.data
-        picture_url = edit_user_form.picture_url.data
+        birthdate = edit_user_form.birthdate.data
 
         # save data
-        buyer = Buyer.objects(email=buyer_id).update(first_name=first_name, last_name=last_name, picture_url=picture_url)
+        buyer = Buyer.objects(email=buyer_id).update(first_name=first_name, last_name=last_name, birthdate =birthdate)
 
         buyer = Buyer.objects(email= buyer_id).first()
         # update session
         session['first_name'] = buyer.first_name
         session['last_name'] = buyer.last_name
-        session['picture_url'] = buyer.picture_url
+        session['birthdate'] = buyer.birthdate
 
         #  flash masseag
         flash("User information updated successfully!")
@@ -102,7 +105,7 @@ def edit_buyer(buyer_id):
         return redirect(url_for('buyer.view_buyer', buyer_id=session['uid']))
 
     # redner the login template
-    return render_template("user/edit-user.html", form=edit_user_form)
+    return render_template("buyer/edit-buyer.html", form=edit_user_form)
 
 @buyer_bp.route('/add/fav/<item_id>')
 def add_to_favorite(item_id):
@@ -156,14 +159,16 @@ def buyer_requests():
 
 
 @buyer_bp.route('/search', methods=['GET', 'POST'])
-def item_search():
+def search_item():
+
     search_form = TextSearchForm()
     buyer = Buyer.objects(email=session['uid']).first()
+
     if search_form.validate_on_submit():
         keyword = search_form.keyword.data
         results = Item.objects.search_text(keyword).order_by('$text_score')
 
-        # return render_template('buyer/buyer_index.html', posts=results, title="Search Results", icon="fas fa-search", keyword=keyword)
-        return render_template('buyer/index.html', items=results, favorite_items= buyer.favorites_list)
+
+        return render_template('buyer/search-result.html', items=results, favorite_items= buyer.favorites_list)
 
     return render_template('buyer/search.html', form=search_form, title="Search", icon="fas fa-search")

@@ -7,7 +7,6 @@ from wtforms.fields.html5 import EmailField
 class EditUserForm(FlaskForm):
     first_name = StringField("Enter your first name")
     last_name = StringField("Enter your last name")
-    picture_url = StringField("Enter the URL for a profile picture")
     birthdate = DateField("Enter your birthdate")
     submit = SubmitField("Update User")
 

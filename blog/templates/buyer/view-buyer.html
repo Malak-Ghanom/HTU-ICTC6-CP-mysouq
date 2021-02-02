@@ -11,7 +11,7 @@
 
     <div class="row my-5 mx-auto justify-content-end">
       {%if buyer.id ==session['uid'] %}
-      <div><a class="btn btn-success" href="{{url_for('buyer.edit_buyer',buyer_id=session['uid'])}}">edit profile</a></div>
+      <div><a class="btn btn-success" href="{{url_for('buyer.edit_buyer',buyer_id=session['uid'])}}">Edit Profile</a></div>
       {%endif%}
     </div>
     <div class="row my-5 mx-auto justify-content-center">

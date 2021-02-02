@@ -7,16 +7,16 @@ from flask import session
 class ItemQuerySet(QuerySet):
 
     def price_ascending(self):
-        return self.filter(visibility=True).order_by('-price')
-
-    def price_descending(self):
         return self.filter(visibility=True).order_by('+price')
 
+    def price_descending(self):
+        return self.filter(visibility=True).order_by('-price')
+
     def date_ascending(self):
-        return self.filter(visibility=True).order_by('-date')
+        return self.filter(visibility=True).order_by('+date')
 
     def date_descending(self):
-        return self.filter(visibility=True).order_by('+date')
+        return self.filter(visibility=True).order_by('-date')
 
 
 class Item(Document):

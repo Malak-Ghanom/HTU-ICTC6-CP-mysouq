@@ -6,7 +6,7 @@ from blog.models import User, Admin
 login_bp = Blueprint('login', __name__)
 
 
-
+@login_bp.route('/', methods=['POST','GET'])
 @login_bp.route('/login', methods=['POST', 'GET'])
 def login():
     # create instance of our form
