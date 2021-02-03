@@ -28,11 +28,11 @@
   {% for user in users %}
   <tr>
       <th scope="row">{{ count.value }}</th>
-      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['first_name'] | title }}</a></td>
-      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['last_name'] | title }}</a></td>
-      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['email'] }}</a></td>
-      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['role'] }}</a></td>
-      <td><a href="{{url_for('admin.view_user', id = user.id)}}">{{ user['active'] }}</a></td>
+      <td><a href="{{url_for('user.view_user', user_id = user.id)}}">{{ user['first_name'] | title }}</a></td>
+      <td><a href="{{url_for('user.view_user', user_id = user.id)}}">{{ user['last_name'] | title }}</a></td>
+      <td><a href="{{url_for('user.view_user', user_id = user.id)}}">{{ user['email'] }}</a></td>
+      <td><a href="{{url_for('user.view_user', user_id = user.id)}}">{{ user['role'] }}</a></td>
+      <td><a href="{{url_for('user.view_user', user_id = user.id)}}">{{ user['active'] }}</a></td>
       {% if user['role'] != 'Admin' %}
       <td><a href="{{url_for('admin.delete_user', user_id = user.id)}}"><i class="fas fa-user-minus"></i></a></td>
       {%if user.active == True%}

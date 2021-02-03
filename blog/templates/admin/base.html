@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>{%block title%}Malak Souq{%endblock%}</title>
+  <title>{%block title%}mysouq{%endblock%}</title>
 
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -21,7 +21,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Malak Souq</a>
+        <a class="navbar-brand text-success" href="{{url_for('admin.admin_index')}}"><b> mysouq</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,17 @@
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('admin.get_users') }}">Users</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="{{url_for('admin.categories_list')}}">Categories</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('admin.categories_list')}}">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('admin.requested_categories_list')}}"><span> Category Requests <span class="badge badge-danger">{{category_requests_number}}</span>
+              </span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('admin.upgraded_to_reseller_list')}}"><span> Upgrade Requests <span class="badge badge-danger">{{upgrade_requests_number}}</span>
+              </span></a>
+            </li>
 
 
           </ul>
@@ -48,7 +58,7 @@
                   {{session['first_name'] | title}} {{session['last_name'] |title}}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="{{url_for('admin.view_user',id=session['uid'])}}"><i
+                  <li><a class="dropdown-item" href="{{url_for('user.view_user',user_id=session['uid'])}}"><i
                         class="fas fa-user-circle"></i>
                       Profile</a></li>
                   <li><a class="dropdown-item" href="{{url_for('login.logout')}}"><i class="fas fa-unlock-alt"></i>
@@ -56,7 +66,7 @@
                   <li>
                     <hr class="dropdown-divider">
                   </li>
-                  <li><a class="dropdown-item" href="{{url_for('login.logout')}}"> <i class="fas fa-sign-out-alt"></i>
+                  <li><a class="dropdown-item" href="{{url_for('login.logout')}}">
                       Logout</a></li>
                 </ul>
               </li>
@@ -100,17 +110,17 @@
       {%endblock%}
     </section>
   </main>
-
+  
   <!-- footer -->
   {% block footer%}
   <footer class="text-muted py-4 bg-light">
     <div class="container">
-      <p class="float-end mb-1">
-        <a class="text-dark" href="#brand">Back to top</a>
+      <p class="float-end mb-1 text-center">
+        <a class="text-dark" href="{{url_for('admin.admin_index')}}">Back to home</a>
       </p>
-      <p class="mb-1 text-muted">Flask Blog is a simple blog written in Flask and uses WTForms, Bootstrap, and MongoEngine :).</p>
-      <p class="mb-1 text-muted">New to WTForms? <a class="text-dark" href="https://wtforms.readthedocs.io/en/2.3.x/" target="_blank">Read the
-          docs</a>.</p>
+      <p class="mb-1 text-muted text-center">mysouq is a web application where you can buy items and sell your own
+        items.</p>
+      <p class="mb-1 text-muted text-center">malakghanom96@gmail.com</p>
     </div>
   </footer>
   {% endblock %}

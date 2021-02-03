@@ -61,43 +61,58 @@ def add_user():
     return render_template("user/add-user.html", form=add_user_form)
 
 
-@user_bp.route('/user/edit/<int:id>', methods=['GET', 'POST'])
-def edit_user(id):
+
+@user_bp.route('/view/user/<user_id>')
+def view_user(user_id):
+
+    # get user from mango
+    user = User.objects(email=user_id).first()
+
+    
+    # render 'profile.html' blueprint with user
+    return render_template('user/view-user.html', user=user)
+
+
+@user_bp.route('/edit/user/<user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+
+    user = User.objects(email= user_id).first()
+
 
     # create instance of our form
     edit_user_form = EditUserForm()
     if request.method == "GET":
-        edit_user_form.first_name.data = session['first_name']
-        edit_user_form.last_name.data = session['last_name']
-        edit_user_form.birthdate.data = session['birthdate']
+        edit_user_form.first_name.data = user.first_name
+        edit_user_form.last_name.data = user.last_name
+        edit_user_form.birthdate.data = user.birthdate
 
     # handle form submission
 
     if edit_user_form.validate_on_submit():
 
-        user = User()
-
         # read post values from the form
-        user.first_name = edit_user_form.first_name.data
-        user.last_name = edit_user_form.last_name.data
-        user.birthdate = edit_user_form.birthdate.data
+        first_name = edit_user_form.first_name.data
+        last_name = edit_user_form.last_name.data
+        birthdate = edit_user_form.birthdate.data
 
         # save data
-        user.save()
+        user = User.objects(email=user_id).update(first_name=first_name, last_name=last_name, birthdate =birthdate)
 
+        user = User.objects(email= user_id).first()
         # update session
         session['first_name'] = user.first_name
         session['last_name'] = user.last_name
         session['birthdate'] = user.birthdate
-        
+
         #  flash masseag
         flash("User information updated successfully!")
 
             # redirect
-        return redirect(url_for('user.view_user', id=session['uid']))
+        return redirect(url_for('user.view_user', user_id=session['uid']))
 
     # redner the login template
     return render_template("user/edit-user.html", form=edit_user_form)
+
 
 
 @user_bp.route('/change/password/<user_id>', methods=['GET','POST'])

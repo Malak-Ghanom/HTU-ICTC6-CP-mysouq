@@ -7,16 +7,9 @@
 
 
 {% block main %}
-<div class="row my-5 mx-auto">
-    <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
-        {%if session['uid'] %}
-            <a class="row" href="{{url_for('admin.add_category')}}">Add New category +</a>
-            <a class="row" href="{{url_for('admin.requested_categories_list')}}">Requested Category</a>
-            <a class="row" href="{{url_for('admin.upgraded_to_reseller_list')}}">upgraded to reseller requests</a>
-        {%endif%}
-    </div>
+<div class="row my-5 mx-auto container">
     
-    <div class="col-9">
+    <div class="col-lg-12">
 
         {%if items%}
 
@@ -49,13 +42,20 @@
                             </div>
                         </div>
 
-                        <h3 class="card-subtitle mb-2 text-muted"> Price: {{item.price}} $</h3>
+                        <p class="card-subtitle mb-2 text-muted"> Price: {{item.price}}$</p>
+                        <p class="card-subtitle mb-2 text-muted"> Date: {{ item.date.strftime('%d-%m-%Y %H:%M')}}</p>
                     </div>
 
                     <!-- card body -->
                     <div class="card-body">
                         <p class="card-text">Category: {{item.category }}</p>
                         <p class="card-text">Description: {{item.description}}</p>
+                        <p class="card-text">In stock: {{item.quantity}}</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="#">
+                            <p class="card-text text-success">Author: {{item.author }}</p>
+                        </a>
                     </div>
 
                 </div>
@@ -63,7 +63,7 @@
             {%endfor%}
 
             {%else%}
-            <h3>Sorry, Malak Souq is empty &#128546</h3>
+            <h3>The mysouq is empty.</h3>
             {%endif%}
         </div>
     </div>

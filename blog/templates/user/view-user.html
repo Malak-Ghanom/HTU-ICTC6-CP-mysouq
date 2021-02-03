@@ -1,0 +1,46 @@
+{% extends 'buyer/base.html' %}
+<!-- title -->
+{% block title %}Profile{% endblock %}
+
+<!-- content block -->
+{% block main %}
+
+<div class="row justify-content-center">
+
+  <div class="col-6">
+
+    <div class="row my-5 mx-auto justify-content-center">
+
+      <i class="fas fa-user-circle fa-7x"></i>
+    </div>
+
+    <!-- posts header -->
+    <div class="row my-2 mx-auto justify-content-center text-muted">
+
+      <p> {{user.email}} ({{user.role}})</hh66>
+
+    </div>
+    <div class="row my-2 mx-auto justify-content-center">
+
+
+      <h3> {{user.first_name | title}} {{user.last_name | title}}</h3>
+
+
+    </div>
+
+    <div class="row my-2 mx-auto justify-content-center">
+      <h5>({{user.birthdate}})</h5>
+    </div>
+
+    <div class="row row my-2 mx-auto justify-content-center">
+      {%if user.id ==session['uid'] %}
+      <a class="btn btn-success" href="{{url_for('user.edit_user',user_id=session['uid'])}}">Edit Profile</a>
+      {%endif%}
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+{%endblock%}

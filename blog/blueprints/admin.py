@@ -10,11 +10,18 @@ admin_bp = Blueprint('admin', __name__)
 @admin_bp.route('/admin')
 def admin_index():
 
+    
+    category_requests = RequestCategory.objects
+    category_requests_number = len(category_requests)
+    
+    upgrade_requests = UpgradeToReseller.objects
+    upgrade_requests_number = len(upgrade_requests)
+
     # get items from mango database
     items = Item.objects
 
     # render 'post' blueprint with posts
-    return render_template('admin/index.html', items=items)
+    return render_template('admin/index.html', items=items,upgrade_requests_number=upgrade_requests_number, category_requests_number=category_requests_number)
 
 @admin_bp.route('/user/delete/<user_id>')
 def delete_user(user_id):
@@ -113,16 +120,6 @@ def decline_category(category_id):
 
     return render_template('admin/requested-categories.html', requested_categories= requested_categories)
 
-@admin_bp.route('/user/view/<id>')
-def view_user(id):
-
-    # get user from mango
-    user = User.objects(email=id).first()
-
-    
-    # render 'profile.html' blueprint with user
-    return render_template('admin/view-user.html', user=user)
-
 @admin_bp.route('/deactivate/user/<user_id>')
 def deactivate_user(user_id):
 
@@ -146,7 +143,6 @@ def activate_user(user_id):
     users = User.objects
     # render 'profile.html' blueprint with user
     return render_template('admin/users.html',users=users)
-
 
 @admin_bp.route('/enable/maintenance/mode')
 def enable_maintenance_mode():

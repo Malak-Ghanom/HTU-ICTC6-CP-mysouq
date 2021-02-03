@@ -4,8 +4,8 @@ from wtforms.validators import InputRequired, EqualTo
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Enter your E-mail")
-    password = PasswordField("Enter your password")
+    email = StringField("Email")
+    password = PasswordField("Password")
     submit = SubmitField("Login")
 
 class ChangePasswordForm(FlaskForm):

@@ -21,50 +21,12 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{{url_for('reseller.reseller_index')}}">Malak Souq</a>
+        <a class="navbar-brand text-success" href="{{url_for('login.login')}}"><b> mysouq</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        {%if session['uid'] %}
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('admin.get_users') }}">Users</a>
-            </li>
-            
 
-
-          </ul>
-          <div class="ml-auto mr-5">
-
-            <ul class="navbar-nav ">
-              <li class="nav-item dropdown btn-group dropleft">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  {{session['first_name'] | title}} {{session['last_name'] |title}}
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item" href="{{url_for('admin.view_user',id=session['uid'])}}"><i
-                        class="fas fa-user-circle"></i>
-                      Profile</a></li>
-                  <li><a class="dropdown-item" href="{{url_for('login.logout')}}"><i class="fas fa-unlock-alt"></i>
-                      Change</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="{{url_for('login.logout')}}"> <i class="fas fa-sign-out-alt"></i>
-                      Logout</a></li>
-                </ul>
-              </li>
-
-            </ul>
-          </div>
-        </div>
-        {% else %}
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -77,7 +39,7 @@
 
           </ul>
         </div>
-        {%endif%}
+
       </div>
     </nav>
   </header>
@@ -95,25 +57,32 @@
     </section>
 
     <!-- main block -->
+    <div class="row container my-5">
+      <div class="col-5"></div>
+      <div class="col-6  border rounded justify-content-center my-5">
     <section id="main" class="container-fluid">
-      {%block main%}
-      {%endblock%}
+      
+        {%block main%}
+        {%endblock%}
+      </div>
     </section>
+    <div class="col-4"></div>
+  </div>
   </main>
-
-  <!-- footer -->
-  {% block footer%}
-  <footer class="text-muted py-4 bg-light">
-    <div class="container">
-      <p class="float-end mb-1">
-        <a class="text-dark" href="#brand">Back to top</a>
-      </p>
-      <p class="mb-1 text-muted">Flask Blog is a simple blog written in Flask and uses WTForms, Bootstrap, and MongoEngine :).</p>
-      <p class="mb-1 text-muted">New to WTForms? <a class="text-dark" href="https://wtforms.readthedocs.io/en/2.3.x/" target="_blank">Read the
-          docs</a>.</p>
-    </div>
-  </footer>
-  {% endblock %}
+  
+<!-- footer -->
+{% block footer%}
+<footer class="text-muted py-4 bg-light">
+  <div class="container">
+    <p class="float-end mb-1 text-center">
+      <a class="text-dark" href="{{url_for('login.login')}}">Back to home</a>
+    </p>
+    <p class="mb-1 text-muted text-center">mysouq is a web application where you can buy items and sell your own
+      items.</p>
+      <p class="mb-1 text-muted text-center">malakghanom96@gmail.com</p>
+  </div>
+</footer>
+{% endblock %}
 
   <!-- importing our scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"

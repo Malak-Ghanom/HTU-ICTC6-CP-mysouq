@@ -13,7 +13,6 @@ def check_mode():
     else:
         return redirect(url_for('buyer.buyer_index'))
 
-
 #buyer home page contains all of the available items
 @buyer_bp.route('/buyer/index')
 def buyer_index():
@@ -61,54 +60,6 @@ def date_descending():
     # print(favorite_items.favorite)
     return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
 
-@buyer_bp.route('/buyer/profile/<buyer_id>')
-def view_buyer(buyer_id):
-
-    # get buyer from mango
-    buyer = Buyer.objects(email=buyer_id).first()
-    
-    # render 'profile.html' blueprint with user
-    return render_template('buyer/view-buyer.html', buyer=buyer)
-
-@buyer_bp.route('/edit/buyer/<buyer_id>', methods=['GET', 'POST'])
-def edit_buyer(buyer_id):
-
-    buyer = Buyer.objects(email= buyer_id).first()
-
-
-    # create instance of our form
-    edit_user_form = EditUserForm()
-    if request.method == "GET":
-        edit_user_form.first_name.data = buyer.first_name
-        edit_user_form.last_name.data = buyer.last_name
-        edit_user_form.birthdate.data = buyer.birthdate
-
-    # handle form submission
-
-    if edit_user_form.validate_on_submit():
-
-        # read post values from the form
-        first_name = edit_user_form.first_name.data
-        last_name = edit_user_form.last_name.data
-        birthdate = edit_user_form.birthdate.data
-
-        # save data
-        buyer = Buyer.objects(email=buyer_id).update(first_name=first_name, last_name=last_name, birthdate =birthdate)
-
-        buyer = Buyer.objects(email= buyer_id).first()
-        # update session
-        session['first_name'] = buyer.first_name
-        session['last_name'] = buyer.last_name
-        session['birthdate'] = buyer.birthdate
-
-        #  flash masseag
-        flash("User information updated successfully!")
-
-            # redirect
-        return redirect(url_for('buyer.view_buyer', buyer_id=session['uid']))
-
-    # redner the login template
-    return render_template("buyer/edit-buyer.html", form=edit_user_form)
 
 @buyer_bp.route('/add/fav/<item_id>')
 def add_to_favorite(item_id):

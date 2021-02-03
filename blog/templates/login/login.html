@@ -7,7 +7,8 @@
 {% block main %}
 
 <!-- login  -->
-<div class="row my-5 mx-auto">
+<div class="my-5 mx-auto container justify-content-center">
+
   <form method="POST">
     {{form.hidden_tag()}}
 
@@ -19,7 +20,7 @@
       {{form.password.label}}
     {{form.password(class_="form-control")}}
     </div>
-    {{form.submit(class_="btn btn-success")}}
+    {{form.submit(class_="form-control btn btn-success")}}
 
   </form>
 </div>
