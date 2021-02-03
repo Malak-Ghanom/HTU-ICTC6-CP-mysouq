@@ -1,7 +1,7 @@
 # HTU-ICTC6-CP-mysouq
 
 **mysouq** is a web application where you can buy items and sell your own items.
-Below you will find a tables that contain the group of task that are available for each role.
+Below tables represent the state of the tasks that required for this project.
 
 
 **Admin**
