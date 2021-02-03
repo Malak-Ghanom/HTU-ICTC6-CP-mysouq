@@ -12,6 +12,9 @@ def login():
     # create instance of our form
     login_form = LoginForm()
 
+    admin = Admin.objects.first()
+    session['under_maintenance'] = admin.under_maintenance
+
     # handle form submission
     if login_form.validate_on_submit():
 
@@ -21,7 +24,7 @@ def login():
 
         # get the DB connection
         user = User.objects(email=email).first()
-        print(user.email)
+
         # check if the user was found and the password matches
         if (user):
             if (user.password == password):
@@ -31,7 +34,7 @@ def login():
                     session['first_name'] = user.first_name
                     session['last_name'] = user.last_name
                     session['role'] = user.role
-                    print(user.role)
+
                     # redirect the user after login
                     if user.role == 'Reseller':
                         return redirect(url_for('reseller.check_mode'))

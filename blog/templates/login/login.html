@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
 <!-- title -->
-{% block title %}Flask Blog - Posts{% endblock %}
+{% block title %}mysouq{% endblock %}
 
 <!-- main block -->
 {% block main %}
 
+{%if session['under_maintenance'] == True%}
+<div class="text-warning">The system is under maintenance, login as administrator</div>
+{%endif%}
 <!-- login  -->
 <div class="my-5 ">
   

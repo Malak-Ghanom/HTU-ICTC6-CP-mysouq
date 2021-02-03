@@ -1,6 +1,6 @@
 {% extends 'reseller/base.html' %}
 <!-- title -->
-{% block title %}Malak Souq - {{session['first_name'] | title}} Items{% endblock %}
+{% block title %}mysouq - {{session['first_name'] | title}} Items{% endblock %}
 
 <!-- content block -->
 
@@ -79,10 +79,12 @@
             {%endfor%}
 
             {%else%}
-            <h3>Sorry, Malak Souq is empty &#128546</h3>
-            <a href="{{url_for('reseller.add_item')}}">
-                <h6>Would you like to add new item?</h6>
-            </a>
+            <div class="container">
+                <h3>mysouq is empty.</h3>
+                <a href="{{url_for('reseller.add_item')}}">
+                    <h6>Would you like to add new item?</h6>
+                </a>
+            </div>
             {%endif%}
         </div>
     </div>

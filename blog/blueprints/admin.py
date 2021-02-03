@@ -1,87 +1,104 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, flash
 from ..forms import AddCategoryForm
-from blog.models import User, Item, Category, RequestCategory, Admin, UpgradeToReseller, Buyer
-# from .reseller import requested_categories
+from blog.models import User, Item, Category, RequestCategory, Admin, UpgradeToReseller, Buyer, Reseller
 
 
-# define our blueprint
+# define "Admin" blueprint
 admin_bp = Blueprint('admin', __name__)
 
+
+# home page of admin
 @admin_bp.route('/admin')
 def admin_index():
-
     
+    # get requseted category with length for navbar
     category_requests = RequestCategory.objects
     category_requests_number = len(category_requests)
     
+    # get upgrade requsets with length for navbar
     upgrade_requests = UpgradeToReseller.objects
     upgrade_requests_number = len(upgrade_requests)
 
-    # get items from mango database
+    # get items from mangodb
     items = Item.objects
 
-    # render 'post' blueprint with posts
+    # render 'admin index' templates with items
     return render_template('admin/index.html', items=items,upgrade_requests_number=upgrade_requests_number, category_requests_number=category_requests_number)
 
 @admin_bp.route('/user/delete/<user_id>')
 def delete_user(user_id):
 
-    # get user from mango
+    # delete user from mangodb
     user = User.objects(email=user_id).first().delete()
 
-    # get posts for the user from mango
+    # delete items for the user from mangodb
     user_item = Item.objects(author=user_id).delete()
 
-    # render 'profile.html' blueprint with user
+    # back to 'users list' page
     return redirect(url_for('user.get_users'))
 
 @admin_bp.route('/admin/delete/item/<item_id>')
 def admin_delete_item(item_id):
 
+    # get item from mongodb
     item = Item.objects(id=item_id).first()
-    notification = "Your item number '"+ item_id + "' has been deleted"
-    print(item.author)
-    user = User.objects(email= item.author).first()
-    user.notifications.append(notification)
-    user.save()
 
+    # notify reseller that his item has been deleted
+    notification = "Your item number '"+ item.title + "' has been deleted"
+    reseller = Reseller.objects(email= item.author).first()
+    reseller.notifications.append(notification)
+    reseller.save()
+
+    # delete item from mongodb
+    item.delete()
+
+    # redirect to admin home page
     return redirect(url_for('admin.admin_index'))
 
 @admin_bp.route('/users')
 def get_users():
 
-    # get all users from the mango
+    # get all users from the mangodb
     users = User.objects
 
-    # render 'list.html' blueprint with users
+    # render 'users.html' template
     return render_template('admin/users.html', users=users)
 
 @admin_bp.route('/add/category', methods=['GET', 'POST'])
 def add_category():
 
+    # create instance from the add category form
     add_category_form = AddCategoryForm()
 
+    # if method is POST
     if add_category_form.validate_on_submit():
-        # read item values from the form
+
+        # read category name values from the form
         new_category = add_category_form.category_name.data
         
+        # get all categories from mongodb
         categories= [category['name'] for category in Category.objects]
 
+        # check if the new category already exist in categories
         if new_category not in categories:
             category = Category(name=new_category).save()
             flash("The new category added successfully")
         else:
             flash("Category already exist")
 
+        # redirect to categories list
         return redirect(url_for('admin.categories_list'))
 
-
+    # if method is GET return add category template
     return render_template('admin/add-category.html', form= add_category_form)
 
 @admin_bp.route('/categories')
 def categories_list():
 
+    # get all categories from mongodb
     categories = Category.objects
+
+    # return render to categories template
     return render_template('admin/categories.html',categories= categories)
 
 @admin_bp.route('/requested/categories')
@@ -148,7 +165,7 @@ def activate_user(user_id):
 def enable_maintenance_mode():
 
     admins = Admin.objects
-
+s
     for admin in admins:
         admin.under_maintenance = True
         admin.save()
@@ -164,7 +181,7 @@ def disable_maintenance_mode():
         admin.under_maintenance = False
         admin.save()
 
-    return redirect(url_for('login.login'))
+    return redirect(url_for('admin.admin_index'))
 
 @admin_bp.route('/report')
 def report():

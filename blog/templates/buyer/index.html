@@ -1,6 +1,6 @@
 {% extends 'buyer/base.html' %}
 <!-- title -->
-{% block title %}Malak Souq - {{session['first_name'] | title}} Items{% endblock %}
+{% block title %}mysouq - {{session['first_name'] | title}} Items{% endblock %}
 
 <!-- content block -->
 
@@ -91,7 +91,7 @@
             {%endfor%}
 
             {%else%}
-            <h3>Sorry, mysouq is empty.</h3>
+            <h3>mysouq is empty.</h3>
 
             {% if session['upgraded'] == Treu %}
             <a href="{{url_for('reseller.add_item')}}">

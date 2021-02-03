@@ -6,35 +6,34 @@
 {% endblock %}
 
 <!-- content block -->
-{% block main %} 
+{% block main %}
 
 <div class="container my-5">
   <h2>Report</h2>
 </div>
 
 <table class="table container my-5">
-  
+
   <tbody class="container">
-  <tr>
+    <tr>
       <th scope="row">Admin</th>
       <td>{{admin_number}}</td>
     </tr>
-  <tr>
+    <tr>
       <th scope="row">Reseller</th>
       <td>{{reseller_number}}</td>
     </tr>
-  <tr>
+    <tr>
       <th scope="row">Buyer</th>
       <td>{{buyer_number}}</td>
     </tr>
     <tr>
-      <th scope="row">Total Users = {{total_users}}</th>
+      <th scope="row">Total Users: {{total_users}}</th>
     </tr>
     <tr>
-        <th scope="row">Items</th>
-        <td>{{items_number}}</td>
-      </tr>
+      <th scope="row">Total Items: {{items_number}}</th>
+    </tr>
   </tbody>
-</table> 
+</table>
 
 {% endblock %}
