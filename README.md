@@ -1,9 +1,18 @@
 # HTU-ICTC6-CP-mysouq
 
 
-| Task                                                     | State        |
+| **Admin**                           |                |
+| Task                                                        | State          |
 | :---------------------------------------------------------- | :------------- |
- :---------------------------: |
-| ** Admin **                           |                |
-| ** Buyer **                           |                |
-| ** Reseller **                        |                |
+| Administrators can remove items and users from mysouq.
+  **Extra Credit** – Notify the reseller when one of their items has been removed by an administrator.|                |
+|      |                |
+| Administrators can add new categories.                        |                |
+| Administrators can approve or decline new category requests from resellers.                        |                |
+| Extra Credit – Notify the reseller when one of their new category requests has been approved or declined by an administrator.                         |                |
+| Administrators can disable the account for any user.                        |                |
+| Login attempts with disabled accounts must show an error message instructing
+          the user to contact the support service provider.
+                        |                |
+|                         |                |
+|                         |                |
