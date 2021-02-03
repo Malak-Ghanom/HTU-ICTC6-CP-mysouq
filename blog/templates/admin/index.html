@@ -12,6 +12,7 @@
         {%if session['uid'] %}
             <a class="row" href="{{url_for('admin.add_category')}}">Add New category +</a>
             <a class="row" href="{{url_for('admin.requested_categories_list')}}">Requested Category</a>
+            <a class="row" href="{{url_for('admin.upgraded_to_reseller_list')}}">upgraded to reseller requests</a>
         {%endif%}
     </div>
     

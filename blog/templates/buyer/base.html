@@ -35,28 +35,36 @@
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="{{url_for('buyer.search_item')}}">Search</a>
             </li>
+
+            {% if session['upgraded'] == True%}
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{{url_for('reseller.add_item')}}">Sell Item</a>
+            </li>
+            {%endif%}
+
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('buyer.buyer_requests')}}"><span>
                   <i class="fas fa-shopping-basket"></i> <span class="badge badge-danger">{{buy_requests_number}}</span>
                 </span></a>
             </li>
-              <li class="nav-item dropdown btn-group">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="far fa-bell"></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  {%for notification in notifications%}
-                  <li class="container">{{notification}}</li>
-                  {% if not loop.last %}
+            <li class="nav-item dropdown btn-group">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false"><span>
+                  <i class="far fa-bell"></i><span class="badge badge-danger">{{notifications_number}}</span>
+                </span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                {%for notification in notifications%}
+                <li class="container">{{notification}}</li>
+                {% if not loop.last %}
 
-                  <hr>
-                  {% endif %}
-                  {%endfor%}
-                </ul>
-              </li>
+                <hr>
+                {% endif %}
+                {%endfor%}
+              </ul>
+            </li>
 
-            
+
 
 
           </ul>

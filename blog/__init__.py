@@ -36,6 +36,7 @@ def create_app(test_config=None):
         Category.drop_collection()
         RequestCategory.drop_collection()
         BuyRequest.drop_collection()
+        UpgradeToReseller.drop_collection()
 
         buyer = Buyer(email='malak@gmail.com', first_name='malak',
                       last_name='ghanom', password='0000', birthdate='1996-2-7', role='Buyer').save()

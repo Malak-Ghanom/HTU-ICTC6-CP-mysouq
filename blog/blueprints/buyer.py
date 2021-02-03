@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Buyer, Admin, BuyRequest, User
+from blog.models import Item, Buyer, Admin, BuyRequest, User, UpgradeToReseller
 from ..forms import EditUserForm, ChangePasswordForm, TextSearchForm
 
 buyer_bp = Blueprint('buyer', __name__)
@@ -23,8 +23,11 @@ def buyer_index():
 
     items = Item.objects
     buyer = Buyer.objects(email=session['uid']).first()
+    session['upgraded'] = buyer.upgraded_to_reseller
+
+    notifications_number = len(buyer.notifications)
     # print(favorite_items.favorite)
-    return render_template('buyer/index.html', items=items, notifications= buyer.notifications, buy_requests_number=buy_requests_number)
+    return render_template('buyer/index.html', items=items,notifications_number=notifications_number, notifications= buyer.notifications, buy_requests_number=buy_requests_number)
 
 @buyer_bp.route('/price/ascending')
 def price_ascending():
@@ -172,3 +175,17 @@ def search_item():
         return render_template('buyer/search-result.html', items=results, favorite_items= buyer.favorites_list)
 
     return render_template('buyer/search.html', form=search_form, title="Search", icon="fas fa-search")
+
+
+@buyer_bp.route('/upgrade/<buyer_id>')
+def reseller_upgrade(buyer_id):
+    
+    request = UpgradeToReseller()
+    request.buyer_id= buyer_id
+    request.first_name= session['first_name']
+    request.last_name= session['last_name']
+    request.save()
+
+    flash("Your Request sent successfuly")
+
+    return redirect(url_for('buyer.view_buyer', buyer_id=buyer_id))

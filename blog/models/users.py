@@ -26,8 +26,17 @@ class Reseller(User):
 class Buyer(User):
 
     favorites_list = ListField(StringField(default=None))
+    upgraded_to_reseller = BooleanField(default= False)
 
 
 class Admin(User):
 
     under_maintenance= BooleanField(default=False)
+
+
+class UpgradeToReseller(Document):
+
+    buyer_id = StringField()
+    first_name =  StringField()
+    last_name = StringField()
+    

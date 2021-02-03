@@ -20,5 +20,5 @@ class AddUserForm(FlaskForm):
     first_name = StringField("Enter your first name")
     last_name = StringField("Enter your last name")
     birthdate = DateField("Enter your birthdate")
-    role = SelectField('Sign up as', choices=['Admin','Reseller','Buyer'])
+    role = SelectField('Sign up as', choices=['Reseller','Buyer'])
     submit = SubmitField("Add User")

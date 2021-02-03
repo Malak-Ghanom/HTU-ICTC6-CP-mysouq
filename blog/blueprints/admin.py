@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, flash
 from ..forms import AddCategoryForm
-from blog.models import User, Item, Category, RequestCategory, Admin
+from blog.models import User, Item, Category, RequestCategory, Admin, UpgradeToReseller, Buyer
 # from .reseller import requested_categories
 
 
@@ -135,7 +135,6 @@ def deactivate_user(user_id):
     # render 'profile.html' blueprint with user
     return render_template('admin/users.html',users=users)
 
-
 @admin_bp.route('/activate/user/<user_id>')
 def activate_user(user_id):
 
@@ -198,3 +197,43 @@ def report():
 
     return render_template('admin/report.html', items_number=items_number ,total_users=total_users , admin_number=admin_number, reseller_number=reseller_number, buyer_number=buyer_number)
 
+@admin_bp.route('/upgrade/reseller')
+def upgraded_to_reseller_list():
+    
+    requested_upgrades = UpgradeToReseller.objects
+
+    return render_template('admin/requested-upgrades.html', requested_upgrades= requested_upgrades)
+
+@admin_bp.route('/approve/reseller/upgrade/<request_id>')
+def approve_upgrade_request(request_id):
+    
+    requested_upgrade = UpgradeToReseller.objects(id=request_id).first()
+    buyer = Buyer.objects(email=requested_upgrade.buyer_id).first()
+    buyer.update(upgraded_to_reseller=True)
+    buyer.notifications.append("Your request to upgrade your account to reseller level has been approved")
+    buyer.save()
+    
+    session['upgraded'] = buyer.upgraded_to_reseller
+
+    flash(f"'{buyer.first_name.title()} {buyer.last_name.title()}' upgraded successfully to reseller level")
+    requested_upgrade.delete()
+    
+    requested_upgrades = UpgradeToReseller.objects
+    return render_template('admin/requested-upgrades.html', requested_upgrades= requested_upgrades)
+
+
+@admin_bp.route('/decline/reseller/upgrade/<request_id>')
+def decline_upgrade_request(request_id):
+    
+    requested_upgrade = UpgradeToReseller.objects(id=request_id).first()
+    buyer = Buyer.objects(email=requested_upgrade.buyer_id).first()
+    buyer.notifications.append("Your request to upgrade your account to reseller level has been declined")
+    buyer.save()
+
+    requested_upgrade.delete()
+
+    flash(f"'{buyer.first_name.title()} {buyer.last_name.title()}' request to upgrade his/her account to reseller level declined")
+
+    requested_upgrades = UpgradeToReseller.objects
+
+    return render_template('admin/requested-upgrades.html', requested_upgrades= requested_upgrades)

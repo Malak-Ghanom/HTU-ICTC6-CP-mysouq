@@ -1,0 +1,31 @@
+{% extends 'admin/base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block main %} 
+
+<div class="container my-5">
+
+  <h2>Requests to reseller upgrade
+
+    <a href="{{url_for('admin.admin_index')}}" class="btn btn-success ml-5">Back</a>
+  </h2>
+</div>
+
+
+{% for request in requested_upgrades %}
+<div class="card container my-5 w-50">
+  <div class="card-body">
+    <h6 class="card-title">{{request.first_name}} {{request.last_name}} request to upgrade his/her account to reseller level</h6>
+    <p class="card-text">Username: {{request.buyer_id}}</p>
+    <a href="{{url_for('admin.approve_upgrade_request', request_id=request.id)}}" class="btn btn-success">Approve</a>
+    <a href="{{url_for('admin.decline_upgrade_request', request_id=request.id)}}" class="btn btn-danger">Decline</a>
+  </div>
+</div>
+{% endfor %} 
+
+{% endblock %}

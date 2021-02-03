@@ -85,6 +85,9 @@ def add_item():
         item = Item(category=category, price=price,
                     title=title, description=description, author=author, quantity=quantity).save()
 
+        if session['role'] == 'Buyer':
+            return redirect(url_for('buyer.buyer_index'))
+
         return redirect(url_for('reseller.reseller_index'))
 
     # render the template
