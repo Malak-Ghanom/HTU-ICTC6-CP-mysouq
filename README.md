@@ -18,3 +18,20 @@
 |   o How many items?                                                                          |        ✔        |
 
 
+
+
+**Reseller**
+| Task                                                                                        | State           |
+| :------------------------------------------------------------------------------------------ | :-------------  |
+|• Resellers can add items for sale to mysouq.                                                |        ✔        |
+|   o Resellers must provide a title, short description, price and a category for their item. |        ✔        |
+|   o Resellers are not able to add new categories.                                           |        ✔        |
+|   o Extra Credit – Resellers can request a new category to be added but this request must first be approved by the admin before the newly recommended category can be used.|        ✔        |
+|   o Extra Credit – Resellers can hide items from being visible for sale on mysouq.          |        ✔        |
+|• Resellers can edit any of their items for sale on mysouq.                                  |        ✔        |
+|• Resellers can view incoming buy requests in the notifications area.                        |        ✔        |
+|   o Resellers can approve or decline any buy requests sent by any buyer for any of their items.|        ✔        | 
+|   o Resellers can approve buy requests only for items that are still available. 	          |        ✔        |
+|• Resellers can delete any of their items for sale on mysouq.                                |        ✔        |
+|   o Items that have pending buy request cannot be deleted until all buy requests have been processed.|        ✔        |
+
