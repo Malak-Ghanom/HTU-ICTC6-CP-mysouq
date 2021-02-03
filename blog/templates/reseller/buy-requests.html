@@ -7,24 +7,25 @@
 
 
 {% block main %}
-<div class="row my-5 mx-auto">
-    <div class="col-2 font-size small" style="border-right: 1px solid rgb(187, 185, 185);">
-        {%if session['uid'] %}
-        <a class="row" href="{{url_for('reseller.add_item')}}">###</a>
+<div class="row my-5 mx-auto container">
+    
 
-        {%endif%}
-        <a class="row" href="{{url_for('reseller.request_category')}}">###</a>
-    </div>
-
-    <div class="col-9">
+    <div class="col">
 
         {%if buy_requests%}
 
         <!-- posts header -->
         <div class="row my-5 container justify-content-between px-5">
-            <h3>
-                Requests
-            </h3>
+            <div class="col-lg-10">
+                <h3>
+                    Souq Items
+                </h3>
+            </div>
+            <div class="col">
+                <a class="btn btn-success" href="{{url_for('reseller.reseller_index')}}">
+                    Back
+                </a>
+            </div>
         </div>
 
         <div class="row container">

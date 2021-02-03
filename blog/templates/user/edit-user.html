@@ -1,4 +1,15 @@
+{%if session['role']== 'Buyer'%}
 {% extends 'buyer/base.html' %}
+
+
+{%elif session['role']== 'Reseller'%}
+{% extends 'reseller/base.html' %}
+
+{%elif session['role']== 'Admin'%}
+{% extends 'Admin/base.html' %}
+
+{%endif%}
+
 <!-- title -->
 {% block title %}Malak Souq - Edit Profile{% endblock %}
 

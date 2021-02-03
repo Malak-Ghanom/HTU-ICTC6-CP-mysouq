@@ -21,7 +21,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand text-success" href="{{url_for('admin.admin_index')}}"><b> mysouq</b></a>
+        <a class="navbar-brand text-success font-weight-bold" href="{{url_for('admin.admin_index')}}"> mysouq </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -60,9 +60,9 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li><a class="dropdown-item" href="{{url_for('user.view_user',user_id=session['uid'])}}"><i
                         class="fas fa-user-circle"></i>
-                      Profile</a></li>
+                      View Profile</a></li>
                   <li><a class="dropdown-item" href="{{url_for('login.logout')}}"><i class="fas fa-unlock-alt"></i>
-                      Change</a></li>
+                      Change password</a></li>
                   <li>
                     <hr class="dropdown-divider">
                   </li>

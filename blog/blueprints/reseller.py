@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from blog.models import Item, Reseller, User, Category, RequestCategory, Admin, BuyRequest
+from blog.models import Item, Reseller, User, Category, RequestCategory, Admin, BuyRequest, Buyer
 from ..forms import AddItemForm, EditItemForm, RequestCategoryForm
 from datetime import datetime
 
@@ -18,16 +18,18 @@ def check_mode():
 @reseller_bp.route('/reseller')
 def reseller_index():
 
+
     # get items from mango database
     items = Item.objects
     reseller = User.objects(email=session['uid']).first()
     notifications = reseller.notifications
+    notifications_number = len(notifications)
 
     buy_requests = BuyRequest.objects.get_reseller_pending_requests()
     buy_requests_number = len(buy_requests)
     
     # render 'post' blueprint with posts
-    return render_template('reseller/index.html', items=items, notifications=notifications, buy_requests_number=buy_requests_number)
+    return render_template('reseller/index.html', items=items, notifications_number=notifications_number, notifications=notifications[::-1], buy_requests_number=buy_requests_number)
 
 
 @reseller_bp.route('/reseller/items')
@@ -178,19 +180,26 @@ def buy_requests():
 def approve_buy_request(request_id):
     
     buy_request = BuyRequest.objects(id=request_id).first()
+    buyer = Buyer.objects(email=buy_request.buyer_id).first()
+
+
     item_id = buy_request.item.id
 
     item = Item.objects(id=item_id).first()
 
-    if item.visibility == True:
-        if item.quantity >= 1:
-            item.quantity -=1
-            buy_request.status = 'approved'
-            buy_request.save()
-        else:
-            item.delete()
-            buy_request.status = 'declined'
-            buy_request.save()
+    notification = "Your request to buy item '<b>"+ item.title + "</b>' has been approved"
+    buyer.notifications.append(notification)
+    buyer.save()
+
+    if item.quantity >= 1:
+        item.quantity -=1
+        item.save()
+        buy_request.status = 'approved'
+        buy_request.save()
+    else:
+        item.delete()
+        buy_request.status = 'declined'
+        buy_request.save()
 
     return redirect(url_for('reseller.buy_requests'))
 
@@ -199,6 +208,18 @@ def approve_buy_request(request_id):
 def decline_buy_request(request_id):
     
     buy_request = BuyRequest.objects(id=request_id).first()
+
+    buyer = Buyer.objects(email=buy_request.buyer_id).first()
+
+
+    item_id = buy_request.item.id
+
+    item = Item.objects(id=item_id).first()
+
+    notification = "Your request to buy item '"+ item.title + "' has been declined"
+    buyer.notifications.append(notification)
+    buyer.save()
+
 
     buy_request.status = 'declined'
     buy_request.save()

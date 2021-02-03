@@ -7,7 +7,9 @@
 {% block main %}
 
 <!-- login  -->
-<div class="my-5 mx-auto container justify-content-center">
+<div class="my-5 ">
+  
+<h1 class="text-success mb-5" style="font-family: cursive; text-align: center; text-decoration: underline;"> mysouq</h1>
 
   <form method="POST">
     {{form.hidden_tag()}}
@@ -18,9 +20,9 @@
     </div>
     <div class="mb-3">
       {{form.password.label}}
-    {{form.password(class_="form-control")}}
+    {{form.password(class_="form-control mb-5")}}
     </div>
-    {{form.submit(class_="form-control btn btn-success")}}
+    {{form.submit(class_="form-control btn btn-success mb-5")}}
 
   </form>
 </div>

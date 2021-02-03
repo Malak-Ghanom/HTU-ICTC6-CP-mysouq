@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>{%block title%}Malak Souq{%endblock%}</title>
+  <title>{%block title%}mysouq{%endblock%}</title>
 
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -21,7 +21,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand text-success" href="{{url_for('login.login')}}"><b> mysouq</b></a>
+        <a class="navbar-brand text-success font-weight-bold" href="{{url_for('login.login')}}">mysouq</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -58,31 +58,31 @@
 
     <!-- main block -->
     <div class="row container my-5">
-      <div class="col-5"></div>
-      <div class="col-6  border rounded justify-content-center my-5">
-    <section id="main" class="container-fluid">
-      
-        {%block main%}
-        {%endblock%}
+      <div class="col-6"></div>
+      <div class="col-5  border rounded justify-content-center mt-5">
+        <section id="main" class="container-fluid">
+
+          {%block main%}
+          {%endblock%}
       </div>
-    </section>
-    <div class="col-4"></div>
-  </div>
+      </section>
+      <div class="col-4"></div>
+    </div>
   </main>
-  
-<!-- footer -->
-{% block footer%}
-<footer class="text-muted py-4 bg-light">
-  <div class="container">
-    <p class="float-end mb-1 text-center">
-      <a class="text-dark" href="{{url_for('login.login')}}">Back to home</a>
-    </p>
-    <p class="mb-1 text-muted text-center">mysouq is a web application where you can buy items and sell your own
-      items.</p>
+
+  <!-- footer -->
+  {% block footer%}
+  <footer class="text-muted py-4 bg-light">
+    <div class="container">
+      <p class="float-end mb-1 text-center">
+        <a class="text-dark" href="{{url_for('login.login')}}">Back to home</a>
+      </p>
+      <p class="mb-1 text-muted text-center">mysouq is a web application where you can buy items and sell your own
+        items.</p>
       <p class="mb-1 text-muted text-center">malakghanom96@gmail.com</p>
-  </div>
-</footer>
-{% endblock %}
+    </div>
+  </footer>
+  {% endblock %}
 
   <!-- importing our scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"

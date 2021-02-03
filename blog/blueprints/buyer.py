@@ -26,7 +26,7 @@ def buyer_index():
 
     notifications_number = len(buyer.notifications)
     # print(favorite_items.favorite)
-    return render_template('buyer/index.html', items=items,notifications_number=notifications_number, notifications= buyer.notifications, buy_requests_number=buy_requests_number)
+    return render_template('buyer/index.html', items=items,notifications_number=notifications_number, notifications= buyer.notifications[::-1], buy_requests_number=buy_requests_number)
 
 @buyer_bp.route('/price/ascending')
 def price_ascending():
@@ -60,7 +60,6 @@ def date_descending():
     # print(favorite_items.favorite)
     return render_template('buyer/index.html', items=items, favorite_items= buyer.favorites_list)
 
-
 @buyer_bp.route('/add/fav/<item_id>')
 def add_to_favorite(item_id):
     
@@ -82,10 +81,8 @@ def add_to_favorite(item_id):
     # return redirect(url_for('buyer.buyer_index'))
     return render_template('buyer/favorite-list.html', favorite_items = favorite_items)
 
-
 @buyer_bp.route('/buy/item/<item_id>')
 def buy_item(item_id):
-
     
     item = Item.objects(id=item_id).first()
     item.buyers.append(session['uid'])
@@ -111,7 +108,6 @@ def buyer_requests():
 
     return render_template('buyer/buyer-requests.html', buy_requests = buy_requests)
 
-
 @buyer_bp.route('/search', methods=['GET', 'POST'])
 def search_item():
 
@@ -126,7 +122,6 @@ def search_item():
         return render_template('buyer/search-result.html', items=results, favorite_items= buyer.favorites_list)
 
     return render_template('buyer/search.html', form=search_form, title="Search", icon="fas fa-search")
-
 
 @buyer_bp.route('/upgrade/<buyer_id>')
 def reseller_upgrade(buyer_id):

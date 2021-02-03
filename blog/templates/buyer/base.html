@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
     integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
+
 </head>
 
 <body>
@@ -21,7 +22,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand text-success" href="{{url_for('buyer.buyer_index')}}"><b> mysouq</b></a>
+        <a class="navbar-brand text-success font-weight-bold" href="{{url_for('buyer.buyer_index')}}"> mysouq </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -53,7 +54,7 @@
                   <i class="far fa-bell"></i><span class="badge badge-danger">{{notifications_number}}</span>
                 </span>
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <ul class="dropdown-menu " style="width: 300px;" aria-labelledby="navbarDropdownMenuLink">
                 {%for notification in notifications%}
                 <li class="container">{{notification}}</li>
                 {% if not loop.last %}
@@ -84,7 +85,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li><a class="dropdown-item" href="{{url_for('user.view_user',user_id=session['uid'])}}"><i
                         class="fas fa-user-circle"></i>
-                      Profile</a></li>
+                      View profile</a></li>
                   <li><a class="dropdown-item" href="{{url_for('user.change_password',user_id=session['uid'])}}"><i
                         class="fas fa-unlock-alt"></i>
                       Change Password</a></li>
