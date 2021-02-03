@@ -165,7 +165,7 @@ def activate_user(user_id):
 def enable_maintenance_mode():
 
     admins = Admin.objects
-s
+
     for admin in admins:
         admin.under_maintenance = True
         admin.save()
