@@ -1,5 +1,4 @@
 from mongoengine import *
-# from .user import Reseller
 from datetime import datetime
 from flask import session
 
@@ -20,6 +19,8 @@ class ItemQuerySet(QuerySet):
 
 
 class Item(Document):
+
+    # define class metadata
     meta = {'collection': 'items', 'queryset_class': ItemQuerySet, 'allow_inheritance': True, 'indexes':
             [
                 {'fields': ['$title', '$description', '$category'],
@@ -28,6 +29,7 @@ class Item(Document):
                 }
             ]}
 
+    # define class fields
     author = StringField()
     title = StringField(max_length=120)
     description = StringField()
@@ -51,8 +53,10 @@ class BuyRequestQuerySet(QuerySet):
 
 class BuyRequest(Document):
 
+    # define class meta data
     meta = {'queryset_class': BuyRequestQuerySet}
 
+    # define class fields
     buyer_id = StringField()
     item = ReferenceField(Item)
     status = StringField()

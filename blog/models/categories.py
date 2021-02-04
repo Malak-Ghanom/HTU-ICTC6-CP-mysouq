@@ -1,5 +1,4 @@
 from mongoengine import *
-# from .user import Reseller
 
 
 class Category(Document):
