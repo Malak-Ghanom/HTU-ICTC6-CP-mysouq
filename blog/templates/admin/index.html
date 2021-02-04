@@ -53,7 +53,7 @@
                         <p class="card-text">In stock: {{item.quantity}}</p>
                     </div>
                     <div class="card-body">
-                        <a href="#">
+                        <a href="{{url_for('user.view_user', user_id = item.author)}}">
                             <p class="card-text text-success">Author: {{item.author }}</p>
                         </a>
                     </div>
