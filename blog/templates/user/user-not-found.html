@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+<!-- title -->
+{% block title %}Profile{% endblock %}
+
+<!-- content block -->
+{% block main %}
+
+<div class="row container my-5 mx-auto border round justify-content-center">
+  <div class="col-7 justify-content-end">
+    <h1>You have entered an invalid user.</h1>
+  </div>
+  <div class="col-2 justify-content-start">
+    <div class="row text-light">hello</div>
+    <p style="vertical-align: bottom;"> <a href="{{url_for('user.add_user')}}">Sign up here</p></a>
+  </div>
+</div>
+
+{%endblock%}

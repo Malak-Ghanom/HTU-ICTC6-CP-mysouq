@@ -1,19 +1,19 @@
 from flask import Blueprint, render_template, request, redirect, session, flash, url_for
-
 from ..forms import EditUserForm, AddUserForm, ChangePasswordForm
 from blog.models import User, Item, Reseller, Buyer,Admin
 
 
-# define our blueprint
+# define user blueprint
 user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route('/add/user', methods=['GET', 'POST'])
 def add_user():
 
-    # create instance of our form
+    # create instance of add user form
     add_user_form = AddUserForm()
-    # get the DB connection
+
+    # define instance from data models
     reseller = Reseller()
     buyer = Buyer()
     admin = Admin()
@@ -52,14 +52,14 @@ def add_user():
             reseller.role = add_user_form.role.data
             reseller.save()
 
-        # flash sin up masseag to user
+        # flash sign up masseag to user
         flash("Account successfully created! Please log in.")
 
+        # redirect to login page
         return redirect('/login')
 
-    # render the template
+    # if method is GET render the add user template
     return render_template("user/add-user.html", form=add_user_form)
-
 
 
 @user_bp.route('/view/user/<user_id>')
@@ -69,25 +69,26 @@ def view_user(user_id):
     user = User.objects(email=user_id).first()
 
     
-    # render 'profile.html' blueprint with user
+    # render 'view-user.html' blueprint with user
     return render_template('user/view-user.html', user=user)
 
 
 @user_bp.route('/edit/user/<user_id>', methods=['GET', 'POST'])
 def edit_user(user_id):
 
+    # get user from mongodb by id
     user = User.objects(email= user_id).first()
-
 
     # create instance of our form
     edit_user_form = EditUserForm()
+
+    # write data on the edit user fields
     if request.method == "GET":
         edit_user_form.first_name.data = user.first_name
         edit_user_form.last_name.data = user.last_name
         edit_user_form.birthdate.data = user.birthdate
 
     # handle form submission
-
     if edit_user_form.validate_on_submit():
 
         # read post values from the form
@@ -95,48 +96,56 @@ def edit_user(user_id):
         last_name = edit_user_form.last_name.data
         birthdate = edit_user_form.birthdate.data
 
-        # save data
+        # update data
         user = User.objects(email=user_id).update(first_name=first_name, last_name=last_name, birthdate =birthdate)
-
         user = User.objects(email= user_id).first()
+
         # update session
         session['first_name'] = user.first_name
         session['last_name'] = user.last_name
         session['birthdate'] = user.birthdate
 
-        #  flash masseag
+        # flash masseage
         flash("User information updated successfully!")
 
-            # redirect
+        # redirect to view user
         return redirect(url_for('user.view_user', user_id=session['uid']))
 
-    # redner the login template
+    # if method is GET redner the edit-user template
     return render_template("user/edit-user.html", form=edit_user_form)
-
 
 
 @user_bp.route('/change/password/<user_id>', methods=['GET','POST'])
 def change_password(user_id):
 
+    # create instance from change password form
     change_password_form = ChangePasswordForm()
 
+    # handle submission
     if change_password_form.validate_on_submit():
 
+        # read data from the form
         old_password= change_password_form.old_password.data
         new_password= change_password_form.new_password.data
         confirm_password= change_password_form.confirm_password.data
 
+        # get user from mongodb
         user = User.objects(email=user_id).first()
 
+        # check if password is correct
         if old_password == user.password:
-            # user.update(password=new_password)
+
+            # update password
             user = User.objects(email=user_id).update(password=new_password)
-            
+
+            # flash a msg and redirect to login page
             flash('Your Password Updated successfully')
             return redirect(url_for('login.login'))
 
         else:
+            # flash a msg and redirect to view buyer
             flash('faild to change password')
             return redirect(url_for('buyer.view_buyer'))
 
+    # if method is GET render change password template
     return render_template("user/change-password.html", form=change_password_form)

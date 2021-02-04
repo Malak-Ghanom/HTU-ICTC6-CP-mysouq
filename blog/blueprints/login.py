@@ -2,16 +2,18 @@ from flask import Blueprint, render_template, request, redirect, session, url_fo
 from ..forms import LoginForm
 from blog.models import User, Admin
 
-# define our blueprint
+# define login blueprint
 login_bp = Blueprint('login', __name__)
 
 
 @login_bp.route('/', methods=['POST','GET'])
 @login_bp.route('/login', methods=['POST', 'GET'])
 def login():
-    # create instance of our form
+
+    # create instance from login form
     login_form = LoginForm()
 
+    # get admin to check if the application in maintenance mode
     admin = Admin.objects.first()
     session['under_maintenance'] = admin.under_maintenance
 
@@ -22,12 +24,14 @@ def login():
         email = login_form.email.data
         password = login_form.password.data
 
-        # get the DB connection
+        # get user from the mongobd
         user = User.objects(email=email).first()
 
-        # check if the user was found and the password matches
+        # check if the user was found
         if (user):
+            # and the password matches
             if (user.password == password):
+                # check if the user is active
                 if user.active == True:
                     session['uid'] = user.id
                     session['email'] = user.email
@@ -35,7 +39,7 @@ def login():
                     session['last_name'] = user.last_name
                     session['role'] = user.role
 
-                    # redirect the user after login
+                    # redirect the user after login depending on user role
                     if user.role == 'Reseller':
                         return redirect(url_for('reseller.check_mode'))
 
@@ -45,26 +49,31 @@ def login():
                     elif user.role == 'Admin':
                         return redirect(url_for('admin.admin_index'))
 
+                # if the user was disabled render inactive account template
                 else:
-                    return '<h1>this account has been disabled, please contact the support service provider.</h1>'
+                    return render_template('user/inactive-account.html')
 
+            # if the password doesn't match render incorrect password template
             else:
-                return '<h1>incorrect password</h1>'
+                return render_template('user/incorrect-password.html')
 
+        # if the user not found render user not found template
         else:
-            return '<h1>user not found</h1>'
+            return render_template('user/user-not-found.html')
 
-    # redner the login template
+    # if method is GET redner the login template
     return render_template("login/login.html", form=login_form)
 
 
 @login_bp.route('/session')
 def show_session():
+    
     return dict(session)
 
 
 @login_bp.route('/logout')
 def logout():
+
     # pop 'uid' from session
     session.clear()
 

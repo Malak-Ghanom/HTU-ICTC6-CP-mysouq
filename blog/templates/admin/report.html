@@ -15,26 +15,14 @@
 <table class="table container my-5">
 
   <tbody class="container">
+    {% for info in report_info%}
+    {% for key,value in info.items()%}
     <tr>
-      <th scope="row">Admin</th>
-      <td>{{admin_number}}</td>
+      <th scope="row">{{key}}</th>
+      <td>{{value}}</td>
     </tr>
-    <tr>
-      <th scope="row">Reseller</th>
-      <td>{{reseller_number}}</td>
-    </tr>
-    <tr>
-      <th scope="row">Buyer</th>
-      <td>{{buyer_number}}</td>
-    </tr>
-    <tr>
-      <th scope="row">Total Users</th>
-      <td>{{total_users}}</td>
-    </tr>
-    <tr>
-      <th scope="row">Total Items</th>
-      <td>{{items_number}}</td>
-    </tr>
+    {%endfor%}
+    {%endfor%}
   </tbody>
 </table>
 
