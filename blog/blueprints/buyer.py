@@ -134,4 +134,4 @@ def reseller_upgrade(buyer_id):
 
     flash("Your Request sent successfuly")
 
-    return redirect(url_for('buyer.view_buyer', buyer_id=buyer_id))
+    return redirect(url_for('user.view_user', user_id=buyer_id))

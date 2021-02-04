@@ -1,3 +1,4 @@
+
 {%if session['role']== 'Buyer'%}
 {% extends 'buyer/base.html' %}
 
@@ -15,6 +16,12 @@
 
 <!-- content block -->
 {% block main %}
+
+{%if session['role']== 'Buyer'%}
+<div class="row container my-5 justify-content-end">
+  <a class="btn btn-success" href="{{url_for('buyer.reseller_upgrade',buyer_id=session['uid'])}}">Upgrade to reseller</a>
+</div>
+{%endif%}
 
 <div class="row justify-content-center">
 
