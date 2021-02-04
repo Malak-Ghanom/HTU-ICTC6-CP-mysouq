@@ -91,7 +91,7 @@
             {%endfor%}
 
             {%else%}
-            <h3>mysouq is empty.</h3>
+            <h3 class="container my-5">mysouq is empty.</h3>
 
             {% if session['upgraded'] == Treu %}
             <a href="{{url_for('reseller.add_item')}}">

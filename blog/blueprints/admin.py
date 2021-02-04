@@ -50,8 +50,13 @@ def admin_delete_item(item_id):
     reseller.notifications.append(notification)
     reseller.save()
 
-    # delete item from mongodb
-    item.delete()
+    # if there is no buy request on this item delete it 
+    if item.buyers == 0:
+        item.delete()
+    
+    # inform reseller to solve buy request first
+    else:
+        flash("Can't delete item until the reseller solve the buy request first.")
 
     # redirect to admin home page
     return redirect(url_for('admin.admin_index'))

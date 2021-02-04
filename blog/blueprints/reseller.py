@@ -118,7 +118,7 @@ def delete_item(item_id):
     item = Item.objects(id=item_id).first()
 
     # if there is no buy request on this item delete it 
-    if item.buy_requests == 0:
+    if item.buyers == 0:
         item.delete()
     
     # inform reseller to solve buy request first
@@ -211,15 +211,16 @@ def approve_buy_request(request_id):
     # get buy requests from mongodb
     buy_request = BuyRequest.objects(id=request_id).first()
 
+    # get item from mongodb to check quantity
+    item_id = buy_request.item.id
+    item = Item.objects(id=item_id).first()
+    
     # get buyer of the request from mongoodb to notify him
     buyer = Buyer.objects(email=buy_request.buyer_id).first()
     notification = "Your request to buy item '<b>"+ item.title + "</b>' has been approved"
     buyer.notifications.append(notification)
     buyer.save()
 
-    # get item from mongodb to check quantity
-    item_id = buy_request.item.id
-    item = Item.objects(id=item_id).first()
 
     # if there is enough item then approve request and sell item
     if item.quantity >= 1:

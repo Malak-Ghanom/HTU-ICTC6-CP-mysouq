@@ -53,7 +53,7 @@ class BuyRequestQuerySet(QuerySet):
 
 class BuyRequest(Document):
 
-    # define class meta data
+    # define class meta data    
     meta = {'queryset_class': BuyRequestQuerySet}
 
     # define class fields
